@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:nucleo/components/components.dart';
 
+
 class HomeEmpresas extends StatelessWidget {
   const HomeEmpresas({Key? key}) : super(key: key);
 
@@ -19,7 +20,7 @@ class HomeEmpresas extends StatelessWidget {
               margin: const EdgeInsets.symmetric(horizontal: 32),
               child: Column(
                 children: <Widget>[
-                  const MenuBar(),
+                  const MenuBar1(),
                   Align(
                     alignment: Alignment.center,
                     child: Container(

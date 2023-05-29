@@ -15,7 +15,7 @@ class TypographyPage extends StatelessWidget {
         padding: const EdgeInsets.all(10),
         child: Column(
           children: <Widget>[
-            const MenuBar(),
+            const MenuBar1(),
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.all(10),

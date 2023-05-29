@@ -17,7 +17,7 @@ class PremiosPage extends StatelessWidget {
         margin: const EdgeInsets.symmetric(horizontal: 32),
         child: Column(
           children: <Widget>[
-            const MenuBar(),
+            const MenuBar1(),
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: kPadding),

@@ -157,7 +157,7 @@ class _LoginViewState extends State<LoginView> {
                         bool logou = await fazerLogin();
                         if (logou) {
                           // ignore: use_build_context_synchronously
-                          Navigator.pushNamed(context, Routes.homeempresas);
+                          Navigator.pushNamed(context, Routes.lancamentos);
                         } else {
                           // ignore: use_build_context_synchronously
                           ScaffoldMessenger.of(context).showSnackBar(

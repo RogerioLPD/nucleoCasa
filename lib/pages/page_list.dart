@@ -24,7 +24,7 @@ class ListPage extends StatelessWidget {
               margin: const EdgeInsets.symmetric(horizontal: 32),
               child: Column(
                 children: <Widget>[
-                  const MenuBar(),
+                  const MenuBar1(),
                   Image.asset(
                     'assets/images/Logo.png',
                     width: 400,

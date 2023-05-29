@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:nucleo/login/login_admistrador/home_administrador.dart';
-import 'package:nucleo/login/login_admistrador/teste.dart';
+import 'package:nucleo/login/login_especificador/teste.dart';
 import 'package:nucleo/login/login_empresas/checagem_empresas.dart';
 import 'package:nucleo/login/login_admistrador/login_administrador.dart';
 import 'package:nucleo/login/login_empresas/home_screen.dart';
+import 'package:nucleo/login/login_empresas/lancamentos.dart';
 import 'package:nucleo/login/login_empresas/login_empresas.dart';
 import 'package:nucleo/login/login_empresas/register_empresas.dart';
 import 'package:nucleo/login/login_especificador/cadastro_especificador.dart';
 import 'package:nucleo/login/login_especificador/login_especificador.dart';
-import 'package:nucleo/pages/empresashome_page.dart';
-import 'package:nucleo/pages/extrato.dart';
-import 'package:nucleo/pages/home_especificador.dart';
+
 import 'package:nucleo/pages/pages.dart';
 import 'package:nucleo/pages/premios/premios.dart';
 import 'package:nucleo/routes.dart';
@@ -60,8 +59,7 @@ class MyApp extends StatelessWidget {
               return const PostPage();
             case Routes.style:
               return const TypographyPage();
-            case Routes.empresashome:
-              return const EmpresasHomePage();
+            
             case Routes.loginview:
               return const LoginView();
             case Routes.loginespecificador:
@@ -78,14 +76,14 @@ class MyApp extends StatelessWidget {
               return const CadastroEspecificador();
             case Routes.homeadministrador:
               return const HomeAdministrador();
-            case Routes.homeespecificador:
-              return const HomeEspecificador();
+           
             case Routes.premios:
               return const PremiosPage();
-            case Routes.extrato:
-              return const Extrato();
+           
             case Routes.menuside:
               return const MenuSide();
+              case Routes.lancamentos:
+              return const HomeEmpresas4();
 
             default:
               return const SizedBox.shrink();

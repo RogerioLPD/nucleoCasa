@@ -23,7 +23,7 @@ class _ChecagemPageState extends State<ChecagemPage> {
       if (kDebugMode) {
         print('Token $token');
       }
-      Navigator.pushNamed(context, Routes.homeempresas);
+      Navigator.pushNamed(context, Routes.lancamentos);
     } else {
       if (kDebugMode) {
         print('Token $token');

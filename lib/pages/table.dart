@@ -23,7 +23,7 @@ class _CalendarState extends State<Calendar> {
         padding: const EdgeInsets.only(top: kIsWeb ? kPadding : 0),
         child: Column(
           children: [
-            const MenuBar(),
+            const MenuBar1(),
             TableCalendar(focusedDay: now, firstDay: firstDay, lastDay: lastDay)
           ],
         ),

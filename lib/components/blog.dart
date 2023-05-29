@@ -336,8 +336,8 @@ class ListItem extends StatelessWidget {
  * navigation links. Navigation links collapse into
  * a hamburger menu on screens smaller than 400px.
  */
-class MenuBar extends StatelessWidget {
-  const MenuBar({Key? key}) : super(key: key);
+class MenuBar1 extends StatelessWidget {
+  const MenuBar1({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

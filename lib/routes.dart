@@ -24,6 +24,7 @@ class Routes {
   static const String table = "table";
   static const String extrato = "extrato";
   static const String menuside = "menuside";
+  static const String lancamentos = "lancamentos";
 
   static Route<T> fadeThrough<T>(RouteSettings settings, WidgetBuilder page,
       {int duration = 300}) {
