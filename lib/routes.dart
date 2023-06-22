@@ -23,6 +23,7 @@ class Routes {
   static const String premios = "premios";
   static const String table = "table";
   static const String extrato = "extrato";
+  static const String profile = "perfil";
   static const String menuside = "menuside";
   static const String lancamentos = "lancamentos";
 

@@ -43,8 +43,8 @@ class Item extends StatelessWidget {
             ),
             child: Hero(
               tag: "${item.uid}",
-              child: Image.asset(
-                item.image,
+              child: Image.network(
+                item.image_1!,
                 fit: BoxFit.contain,
               ),
             ),
@@ -52,13 +52,13 @@ class Item extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: kPadding / 4),
             child: Text(
-              item.title,
+              item.title!,
               style:
                   TextStyle(color: Colors.black.withOpacity(0.5), fontSize: 20),
             ),
           ),
           Text(
-            item.description,
+            item.description!,
             style: TextStyle(color: Colors.black.withOpacity(0.5)),
           ),
           const SizedBox(

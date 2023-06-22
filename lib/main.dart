@@ -1,17 +1,23 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:nucleo/login/login_admistrador/home_administrador.dart';
+import 'package:nucleo/login/login_especificador/home_espeficador.dart';
+import 'package:nucleo/login/login_especificador/profile_especificador.dart';
+import 'package:nucleo/login/login_especificador/releases_especificador.dart';
 import 'package:nucleo/login/login_especificador/teste.dart';
 import 'package:nucleo/login/login_empresas/checagem_empresas.dart';
 import 'package:nucleo/login/login_admistrador/login_administrador.dart';
 import 'package:nucleo/login/login_empresas/home_screen.dart';
 import 'package:nucleo/login/login_empresas/lancamentos.dart';
 import 'package:nucleo/login/login_empresas/login_empresas.dart';
-import 'package:nucleo/login/login_empresas/register_empresas.dart';
-import 'package:nucleo/login/login_especificador/cadastro_especificador.dart';
+import 'package:nucleo/login/login_admistrador/register_empresas.dart';
+import 'package:nucleo/login/login_admistrador/cadastro_especificador.dart';
 import 'package:nucleo/login/login_especificador/login_especificador.dart';
 
 import 'package:nucleo/pages/pages.dart';
+import 'package:nucleo/pages/patner/partner_enterprises.dart';
 import 'package:nucleo/pages/premios/premios.dart';
+import 'package:nucleo/responsive.dart';
 import 'package:nucleo/routes.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -49,7 +55,7 @@ class MyApp extends StatelessWidget {
             const ResponsiveBreakpoint.autoScale(2460, name: "4K"),
           ],
           background: Container(color: const Color(0xFFF5F5F5))),
-      initialRoute: Routes.home,
+      initialRoute:  kIsWeb ? Routes.home : Routes.loginespecificador,
       onGenerateRoute: (RouteSettings settings) {
         return Routes.fadeThrough(settings, (context) {
           switch (settings.name) {
@@ -59,11 +65,13 @@ class MyApp extends StatelessWidget {
               return const PostPage();
             case Routes.style:
               return const TypographyPage();
-            
+
             case Routes.loginview:
               return const LoginView();
             case Routes.loginespecificador:
               return const LoginEspecificador();
+            case Routes.homeespecificador:
+              return HomeEspecificador();
             case Routes.loginadministrador:
               return const LoginAdministrador();
             case Routes.registerempresas:
@@ -76,13 +84,19 @@ class MyApp extends StatelessWidget {
               return const CadastroEspecificador();
             case Routes.homeadministrador:
               return const HomeAdministrador();
-           
+            case Routes.extrato:
+              return ReleasesEspecificador();
+            case Routes.profile:
+              return ProfileEspecificador();
+
             case Routes.premios:
-              return const PremiosPage();
-           
+              return RewardsPage();
+            case Routes.empresas:
+              return PartnerEnterprises();
+
             case Routes.menuside:
               return const MenuSide();
-              case Routes.lancamentos:
+            case Routes.lancamentos:
               return const HomeEmpresas4();
 
             default:
