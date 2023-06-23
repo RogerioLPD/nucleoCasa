@@ -14,7 +14,8 @@ class SpecifierController {
   final StreamController<List<AcquisitionsItem>> detailsController =
       StreamController.broadcast();
   final StreamController<int> pointsController = StreamController.broadcast();
-  final StreamController<UserDetails> userController = StreamController.broadcast();
+  final StreamController<UserDetails> userController =
+      StreamController.broadcast();
 
   final PageController pageController = PageController(initialPage: 0);
   SpecifierController() {
@@ -43,20 +44,22 @@ class SpecifierController {
     try {
       var response = await http.get(url, headers: headers);
       if (response.statusCode == 200) {
-        item = (json.decode(response.body) as List)
-            .map((data) => AcquisitionsItem.fromJson(data))
-            .toList();
-        int valueTotal = 0;
-        for (AcquisitionsItem data in item) {
-          int value = int.parse(data.valor!);
-          valueTotal = valueTotal + value;
+        if (json.decode(response.body) != []) {
+          item = (json.decode(response.body) as List)
+              .map((data) => AcquisitionsItem.fromJson(data))
+              .toList();
+          int valueTotal = 0;
+          for (AcquisitionsItem data in item) {
+            int value = int.parse(data.valor!);
+            valueTotal = valueTotal + value;
+          }
+          print(valueTotal);
+          pointsController.sink.add(valueTotal);
+          detailsController.sink.add(item);
+          // if (kDebugMode) {
+          //   print(response.body);
+          // }
         }
-        print(valueTotal);
-        pointsController.sink.add(valueTotal);
-        detailsController.sink.add(item);
-        // if (kDebugMode) {
-        //   print(response.body);
-        // }
       } else {}
     } catch (e) {
       log(e.toString());
@@ -80,13 +83,15 @@ class SpecifierController {
     try {
       var response = await http.get(url, headers: headers);
       if (response.statusCode == 200) {
-        item = UserDetails.fromJson(json.decode(response.body));
+        if(json.decode(response.body) != []){
+          item = UserDetails.fromJson(json.decode(response.body));
 
-        userController.sink.add(item);
-        int valueTotal = 0;
-        // if (kDebugMode) {
-        //   print(response.body);
-        // }
+          userController.sink.add(item);
+          int valueTotal = 0;
+          // if (kDebugMode) {
+          //   print(response.body);
+          // }
+        }
       } else {}
     } catch (e) {
       log(e.toString());

@@ -33,8 +33,10 @@ class RewardsController {
     try {
       var response = await http.get(url, headers: headers);
       if (response.statusCode == 200) {
-        item = (json.decode(response.body) as List).map((data) => ProductItem.fromJson(data)).toList();
-        dataController.sink.add(item);
+        if (json.decode(response.body) != []) {
+          item = (json.decode(response.body) as List).map((data) => ProductItem.fromJson(data)).toList();
+          dataController.sink.add(item);
+        }
         // if (kDebugMode) {
         //   print(token);
         // }

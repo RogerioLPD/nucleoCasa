@@ -20,7 +20,7 @@ class HomeEspecificador extends StatefulWidget {
 class _HomeEspecificadorState extends State<HomeEspecificador> {
   final SpecifierController _controller = SpecifierController();
   final AuthenticationController _auth = AuthenticationController();
-  bool isHomeSelected = true;
+  bool isHomeSelected = false;
   bool isPointsSelected = false;
   bool isRewardsSelected = false;
   bool isEnterprisesSelected = false;
@@ -61,7 +61,6 @@ class _HomeEspecificadorState extends State<HomeEspecificador> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Column(
-                mainAxisSize: MainAxisSize.min,
                 children: [
                   IconButton(
                     tooltip: "Menu",
@@ -276,23 +275,6 @@ class _HomeEspecificadorState extends State<HomeEspecificador> {
               ),
             ),
           ),
-          // const Text(
-          //   "Welcome Back",
-          //   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-          // ),
-          // const SizedBox(
-          //   height: 10,
-          // ),
-          // const Text('email',
-          //     style: TextStyle(
-          //       color: Colors.black54,
-          //       fontWeight: FontWeight.w500,
-          //     )),
-          // const Text('name',
-          //     style: TextStyle(
-          //       color: Colors.black54,
-          //       fontWeight: FontWeight.w500,
-          //     )),
           const SizedBox(
             height: 5,
           ),
@@ -310,37 +292,89 @@ class _HomeEspecificadorState extends State<HomeEspecificador> {
                     context,
                     Icons.receipt_long_outlined,
                     "Pontuação",
-                    () => Navigator.pushNamed(context, Routes.extrato),
+                    () {
+                      if (kIsWeb) {
+                        Navigator.pushNamed(context, Routes.extrato);
+                      } else {
+                        setState(() {
+                          isHomeSelected = false;
+                          isPointsSelected = true;
+                          isRewardsSelected = false;
+                          isEnterprisesSelected = false;
+                          isProfileSelected = false;
+                        });
+                        _controller.pageController.jumpToPage(1);
+                      }
+                    },
                   ),
                   menuItem(
                     context,
                     Icons.domain,
                     "Empresas",
-                    () => Navigator.pushNamed(context, Routes.empresas),
+                    () {
+                      if (kIsWeb) {
+                        Navigator.pushNamed(context, Routes.empresas);
+                      } else {
+                        setState(() {
+                          isHomeSelected = false;
+                          isPointsSelected = false;
+                          isRewardsSelected = false;
+                          isEnterprisesSelected = true;
+                          isProfileSelected = false;
+                        });
+                        _controller.pageController.jumpToPage(3);
+                      }
+                    },
                   ),
                   menuItem(
                     context,
                     Icons.card_giftcard,
                     "Premios",
-                    () => Navigator.pushNamed(context, Routes.premios),
+                    () {
+                      if (kIsWeb) {
+                        Navigator.pushNamed(context, Routes.extrato);
+                      } else {
+                        setState(() {
+                          isHomeSelected = false;
+                          isPointsSelected = false;
+                          isRewardsSelected = true;
+                          isEnterprisesSelected = false;
+                          isProfileSelected = false;
+                        });
+                        _controller.pageController.jumpToPage(2);
+                      }
+                    },
                   ),
                   menuItem(
                     context,
                     Icons.account_circle_outlined,
                     "Perfil",
-                    () => Navigator.pushNamed(
-                      context,
-                      Routes.profile,
-                    ),
+                    () {
+                      if (kIsWeb) {
+                        Navigator.pushNamed(context, Routes.extrato);
+                      } else {
+                        setState(() {
+                          isHomeSelected = false;
+                          isPointsSelected = false;
+                          isRewardsSelected = false;
+                          isEnterprisesSelected = false;
+                          isProfileSelected = true;
+                        });
+                        _controller.pageController.jumpToPage(4);
+                      }
+                    },
                   )
                 ],
               ),
             ),
           ),
-          ActionChip(label: const Text("Logout"), onPressed: () {
-            _auth.doLogout();
-            Navigator.pushNamedAndRemoveUntil(context, Routes.loginespecificador, (route) => false);
-          }),
+          ActionChip(
+              label: const Text("Logout"),
+              onPressed: () {
+                _auth.doLogout();
+                Navigator.pushNamedAndRemoveUntil(
+                    context, Routes.loginespecificador, (route) => false);
+              }),
         ],
       ),
     );
@@ -429,8 +463,13 @@ class _HomeEspecificadorState extends State<HomeEspecificador> {
                             borderRadius: BorderRadius.circular(25.0),
                           ),
                           child: TextButton(
-                            onPressed: () =>
-                                Navigator.pushNamed(context, Routes.extrato),
+                            onPressed: () {
+                              if (kIsWeb) {
+                                Navigator.pushNamed(context, Routes.extrato);
+                              } else {
+                                _controller.pageController.jumpToPage(1);
+                              }
+                            },
                             child: Text(
                               "EXTRATO",
                               style: TextStyle(color: Colors.lightBlue[900]),

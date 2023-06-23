@@ -3,6 +3,7 @@ import 'dart:core';
 import 'dart:developer';
 import 'dart:typed_data';
 
+import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
@@ -18,6 +19,8 @@ class AdministradorController {
 
     };
 
+    print(image);
+
     Map<String, dynamic> body = {
       "foto": image,
       "nome": name,
@@ -26,9 +29,9 @@ class AdministradorController {
     try {
       var response = await http.post(url, headers: headers, body: body);
       if (response.statusCode == 200) {
-        // if (kDebugMode) {
-        //   print(token);
-        // }
+        if (kDebugMode) {
+          print(response.body);
+        }
         return true;
       } else {
         return false;

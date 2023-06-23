@@ -17,6 +17,7 @@ import 'package:nucleo/login/login_especificador/login_especificador.dart';
 import 'package:nucleo/pages/pages.dart';
 import 'package:nucleo/pages/patner/partner_enterprises.dart';
 import 'package:nucleo/pages/premios/premios.dart';
+import 'package:nucleo/pages/splash_screen.dart';
 import 'package:nucleo/responsive.dart';
 import 'package:nucleo/routes.dart';
 import 'package:responsive_framework/responsive_framework.dart';
@@ -55,7 +56,7 @@ class MyApp extends StatelessWidget {
             const ResponsiveBreakpoint.autoScale(2460, name: "4K"),
           ],
           background: Container(color: const Color(0xFFF5F5F5))),
-      initialRoute:  kIsWeb ? Routes.home : Routes.loginespecificador,
+      initialRoute:  kIsWeb ? Routes.home : Routes.splashscreen,
       onGenerateRoute: (RouteSettings settings) {
         return Routes.fadeThrough(settings, (context) {
           switch (settings.name) {
@@ -65,9 +66,10 @@ class MyApp extends StatelessWidget {
               return const PostPage();
             case Routes.style:
               return const TypographyPage();
-
             case Routes.loginview:
               return const LoginView();
+            case Routes.splashscreen:
+              return const SplashScreen();
             case Routes.loginespecificador:
               return const LoginEspecificador();
             case Routes.homeespecificador:

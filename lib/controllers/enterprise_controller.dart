@@ -43,23 +43,25 @@ class EnterpriseController {
     try {
       var response = await http.get(url, headers: headers);
       if (response.statusCode == 200) {
-        item = (json.decode(response.body) as List)
-            .map((data) => EnterpriseItem.fromJson(data))
-            .toList();
+        if(json.decode(response.body) != null){
+          item = (json.decode(response.body) as List)
+              .map((data) => EnterpriseItem.fromJson(data))
+              .toList();
 
-        dataController.sink.add(item);
+          dataController.sink.add(item);
 
-        for (EnterpriseItem data in item) {
-          if (!city.contains(data.city)) {
-            city.add(data.city!);
+          for (EnterpriseItem data in item) {
+            if (!city.contains(data.city)) {
+              city.add(data.city!);
+            }
           }
-        }
-        cityController.sink.add(city);
-        isLoading.sink.add(false);
-        // if (kDebugMode) {
-        //   print(response.body);
-        // }
+          cityController.sink.add(city);
+          isLoading.sink.add(false);
+          // if (kDebugMode) {
+          //   print(response.body);
+          // }
 
+        }
       } else {}
     } catch (e) {
       log(e.toString());
