@@ -1,12 +1,14 @@
 // ignore_for_file: prefer_interpolation_to_compose_strings
 
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:nucleo/components/color.dart';
+import 'package:nucleo/controllers/authenticator_controller.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../routes.dart';
@@ -24,16 +26,40 @@ class _LoginAdministradorState extends State<LoginAdministrador> {
   final _senhaController = TextEditingController();
   bool visivelSenha = true;
 
+  final AuthenticationController auth = AuthenticationController();
+
+  checkLogin() async {
+    var check = await auth.checkAuthentication();
+    if (check) {
+      if (mounted) {
+        Navigator.pushReplacementNamed(context, Routes.homeadministrador);
+      }
+    }
+  }
+
+  @override
+  void initState() {
+    checkLogin();
+    super.initState();
+  }
+
   void verSenha() {
     setState(() {
       visivelSenha = !visivelSenha;
     });
   }
 
+  void getRoute() {}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
+      body: WillPopScope(
+        onWillPop: () async {
+          Navigator.pushNamedAndRemoveUntil(context, Routes.home, (Route<dynamic> route) => false);
+          return true;
+        },
+        child: Center(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(24),
           child: Form(
@@ -54,7 +80,7 @@ class _LoginAdministradorState extends State<LoginAdministrador> {
                   height: 10,
                 ),
                 Text(
-                  'LOGIN ESPECIFICADOR',
+                  'LOGIN ADMINISTRADOR',
                   style: GoogleFonts.montserrat(
                       fontWeight: FontWeight.w500,
                       letterSpacing: 3,
@@ -80,7 +106,7 @@ class _LoginAdministradorState extends State<LoginAdministrador> {
                     if (value == null || value.isEmpty) {
                       return 'Digite seu e-mail';
                     } else if (!RegExp(
-                            r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
+                        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
                         .hasMatch(value)) {
                       return 'Digite um e-mail válido';
                     }
@@ -97,7 +123,7 @@ class _LoginAdministradorState extends State<LoginAdministrador> {
                   decoration: InputDecoration(
                     hintText: 'Insira sua senha',
                     hintStyle:
-                        const TextStyle(color: Colors.grey, fontSize: 14),
+                    const TextStyle(color: Colors.grey, fontSize: 14),
                     prefixIcon: const Icon(Icons.lock_outline),
                     suffixIcon: IconButton(
                       icon: Icon(visivelSenha
@@ -131,35 +157,46 @@ class _LoginAdministradorState extends State<LoginAdministrador> {
                 const SizedBox(
                   height: 14,
                 ),
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: MaterialButton(
-                    padding: const EdgeInsets.symmetric(horizontal: 6),
-                    elevation: 0,
-                    onPressed: () async {
-                      if (_formKey.currentState!.validate()) {
-                        bool logou = await fazerLogin();
-                        if (logou) {
-                          // ignore: use_build_context_synchronously
-                          Navigator.pushNamed(
-                              context, Routes.homeadministrador);
-                        } else {
-                          // ignore: use_build_context_synchronously
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                                content: Text('Erro ao fazer login')),
-                          );
-                        }
-                      }
-                    },
-                    child: Text(
-                      'ENTRAR',
-                      style: GoogleFonts.montserrat(
-                          color: textPrimary,
-                          fontWeight: FontWeight.w700,
-                          fontSize: 18),
-                    ),
-                  ),
+                StreamBuilder(
+                  stream: auth.loginLoading.stream,
+                  builder: (_, snapshot) {
+                    print(snapshot.data);
+                    return snapshot.data == false
+                        ? Align(
+                      alignment: Alignment.bottomCenter,
+                      child: MaterialButton(
+                        padding:
+                        const EdgeInsets.symmetric(horizontal: 6),
+                        elevation: 0,
+                        onPressed: () async {
+                          if (_formKey.currentState!.validate()) {
+                            bool logout = await auth.doLogin(
+                                _emailController.text,
+                                _senhaController.text);
+                            if (logout) {
+                              // ignore: use_build_context_synchronously
+                              Navigator.pushReplacementNamed(
+                                  context, Routes.homeadministrador);
+                            } else {
+                              // ignore: use_build_context_synchronously
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    content: Text('Erro ao fazer login')),
+                              );
+                            }
+                          }
+                        },
+                        child: Text(
+                          'ENTRAR',
+                          style: GoogleFonts.montserrat(
+                              color: textPrimary,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 18),
+                        ),
+                      ),
+                    )
+                        : const CircularProgressIndicator();
+                  },
                 ),
                 const SizedBox(
                   height: 30,
@@ -184,35 +221,44 @@ class _LoginAdministradorState extends State<LoginAdministrador> {
             ),
           ),
         ),
-      ),
+      ),),
     );
   }
 
   Future<bool> fazerLogin() async {
+    if (kDebugMode) {
+      print("oi");
+    }
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    var url = Uri.parse('https://rogerio-esms.herokuapp.com/login/');
+    var url =
+        Uri.parse("https://nucleocasadecor-production.up.railway.app/login/");
     Map<String, String> headers = {
       'content-type': 'application/json',
     };
     Map<String, dynamic> body = {
-      'email': _emailController.text,
-      'password': _senhaController.text,
+      "username": _emailController.text,
+      "password": _senhaController.text,
     };
-    var response = await http.post(
-      url,
-      headers: headers,
-      body: body,
-    );
-    if (response.statusCode == 200) {
-      String token = jsonDecode(response.body)['token'];
-      if (token.isNotEmpty) {
-        await sharedPreferences.setString('token', "Token $token");
+    try {
+      var response = await http.post(
+        url,
+        headers: headers,
+        body: jsonEncode(body),
+      );
+      if (response.statusCode == 200) {
+        String token = jsonDecode(response.body)['token'];
+        if (token.isNotEmpty) {
+          await sharedPreferences.setString('token', "Token $token");
+        }
+        if (kDebugMode) {
+          print(sharedPreferences.getString('token'));
+        }
+        return true;
+      } else {
+        return false;
       }
-      if (kDebugMode) {
-        print(sharedPreferences.getString('token'));
-      }
-      return true;
-    } else {
+    } catch (e) {
+      log(e.toString());
       return false;
     }
   }

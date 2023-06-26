@@ -53,11 +53,11 @@ class ListPage extends StatelessWidget {
                       title: listItemTitleText2,
                       description: listItemPreviewText2),
                   divider,
-                  Container(
-                    padding: const EdgeInsets.symmetric(vertical: 80),
-                    child: const ListNavigation(),
-                  ),
-                  divider,
+                  // Container(
+                  //   padding: const EdgeInsets.symmetric(vertical: 80),
+                  //   child: const ListNavigation(),
+                  // ),
+                  //divider,
                   const Footer(),
                 ],
               ),

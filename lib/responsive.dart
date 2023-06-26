@@ -4,14 +4,17 @@ class ResponsiveLayout extends StatelessWidget {
   final Widget iphone;
   final Widget ipad;
   final Widget macbook;
+  final bool? forceIpadList;
   const ResponsiveLayout(
       {Key? key,
       required this.ipad,
       required this.iphone,
-      required this.macbook})
+      required this.macbook,
+      this.forceIpadList = false})
       : super(key: key);
 
   static int iphoneLimit = 600;
+  static int ipadVerticalLimit = 800;
   static int ipadLimit = 1200;
 
   static bool isIphone(BuildContext context) =>
@@ -31,6 +34,15 @@ class ResponsiveLayout extends StatelessWidget {
       if (constraints.maxWidth < iphoneLimit) {
         return iphone;
       }
+      if (constraints.maxWidth > iphoneLimit &&
+          constraints.maxWidth < ipadVerticalLimit) {
+        if(forceIpadList != null && forceIpadList == true){
+          return ipad;
+        }else{
+          return iphone;
+        }
+      }
+
       if (constraints.maxWidth < ipadLimit) {
         return ipad;
       } else {

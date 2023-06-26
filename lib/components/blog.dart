@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:nucleo/components/color.dart';
 import 'package:nucleo/components/spacing.dart';
 import 'package:nucleo/components/text.dart';
 import 'package:nucleo/components/typography.dart';
+import 'package:nucleo/controllers/authenticator_controller.dart';
+import 'package:nucleo/responsive.dart';
 import 'package:nucleo/routes.dart';
 
 class ImageWrapper extends StatelessWidget {
@@ -314,15 +317,15 @@ class ListItem extends StatelessWidget {
               ),
             ),
           ),
-        Align(
-          alignment: Alignment.centerLeft,
-          child: Container(
-            margin: marginBottom24,
-            child: ReadMoreButton(
-              onPressed: () => Navigator.pushNamed(context, Routes.post),
-            ),
-          ),
-        ),
+        // Align(
+        //   alignment: Alignment.centerLeft,
+        //   child: Container(
+        //     margin: marginBottom24,
+        //     child: ReadMoreButton(
+        //       onPressed: () => Navigator.pushNamed(context, Routes.post),
+        //     ),
+        //   ),
+        // ),
       ],
     );
   }
@@ -336,11 +339,38 @@ class ListItem extends StatelessWidget {
  * navigation links. Navigation links collapse into
  * a hamburger menu on screens smaller than 400px.
  */
-class MenuBar1 extends StatelessWidget {
-  const MenuBar1({Key? key}) : super(key: key);
+class MenuBar1 extends StatefulWidget {
+  const MenuBar1({super.key});
+
+  @override
+  State<MenuBar1> createState() => MenuBar1State();
+}
+
+class MenuBar1State extends State<MenuBar1> {
+  MenuBar1State({Key? key});
+
+  AuthenticationController auth = AuthenticationController();
+  bool authcheck = false;
+  late GlobalKey dropdownKey;
+
+  @override
+  void initState() {
+    dropdownKey = GlobalKey();
+    initChecks();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
+    return menuSite(context);
+  }
+
+  initChecks() async {
+    authcheck = await auth.checkAuthentication();
+  }
+
+  menuSite(BuildContext context) {
+    rebuild();
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
@@ -352,8 +382,13 @@ class MenuBar1 extends StatelessWidget {
                 hoverColor: Colors.transparent,
                 highlightColor: Colors.transparent,
                 splashColor: Colors.transparent,
-                onTap: () => Navigator.popUntil(
-                    context, ModalRoute.withName(Navigator.defaultRouteName)),
+                onTap: () => {
+                  if (ModalRoute.of(context)!.settings.name != '/')
+                    {
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, Routes.home, (Route<dynamic> route) => false)
+                    }
+                },
                 child: Text("CASA DECOR",
                     style: GoogleFonts.montserrat(
                         color: textPrimary,
@@ -365,48 +400,7 @@ class MenuBar1 extends StatelessWidget {
                 child: Container(
                   alignment: Alignment.centerRight,
                   child: Wrap(
-                    children: <Widget>[
-                      TextButton(
-                        onPressed: () => Navigator.popUntil(context,
-                            ModalRoute.withName(Navigator.defaultRouteName)),
-                        style: menuButtonStyle,
-                        child: const Text(
-                          "HOME",
-                        ),
-                      ),
-                      TextButton(
-                        onPressed: () =>
-                            Navigator.pushNamed(context, Routes.checagempage),
-                        style: menuButtonStyle,
-                        child: const Text(
-                          "LOGIN EMPRESAS",
-                        ),
-                      ),
-                      TextButton(
-                        onPressed: () => Navigator.pushNamed(
-                            context, Routes.loginespecificador),
-                        style: menuButtonStyle,
-                        child: const Text(
-                          "LOGIN ESPECIFICADOR",
-                        ),
-                      ),
-                      TextButton(
-                        onPressed: () => Navigator.pushNamed(
-                            context, Routes.loginadministrador),
-                        style: menuButtonStyle,
-                        child: const Text(
-                          "LOGIN ADM.",
-                        ),
-                      ),
-                      TextButton(
-                        onPressed: () =>
-                            Navigator.pushNamed(context, Routes.premios),
-                        style: menuButtonStyle,
-                        child: const Text(
-                          "PRÊMIOS",
-                        ),
-                      ),
-                    ],
+                    children: menuBody(true),
                   ),
                 ),
               ),
@@ -419,5 +413,165 @@ class MenuBar1 extends StatelessWidget {
             color: const Color(0xFFEEEEEE)),
       ],
     );
+  }
+
+  menuBody(bool isAuth) {
+    return [
+      TextButton(
+        onPressed: () => {
+          if (ModalRoute.of(context)!.settings.name != '/')
+            {Navigator.pushNamed(context, Routes.home)}
+        },
+        style: menuButtonStyle,
+        child: const Text(
+          "HOME",
+        ),
+      ),
+      TextButton(
+        onPressed: () {
+          Navigator.pushNamed(context, Routes.loginview);
+          //Navigator.pop(dropdownKey.currentContext!);
+        },
+        style: menuButtonStyle,
+        child: authcheck == false
+            ? const Text(
+                "LOGIN EMPRESAS",
+              )
+            : const Text(
+                "HOME EMPRESAS",
+              ),
+      ),
+      TextButton(
+        onPressed: () {
+          Navigator.pushNamed(context, Routes.loginespecificador);
+          //Navigator.pop(dropdownKey.currentContext!);
+        },
+        style: menuButtonStyle,
+        child: authcheck == false
+            ? const Text(
+                "LOGIN ESPECIFICADOR",
+              )
+            : const Text(
+                "HOME ESPECIFICADOR",
+              ),
+      ),
+      TextButton(
+        onPressed: () {
+          Navigator.pushNamed(context, Routes.loginadministrador);
+          //Navigator.pop(dropdownKey.currentContext!);
+        },
+        style: menuButtonStyle,
+        child: authcheck == false
+            ? const Text(
+                "LOGIN ADM.",
+              )
+            : const Text(
+                "HOME ADM.",
+              ),
+      ),
+      TextButton(
+        onPressed: () {
+          if (ModalRoute.of(context)!.settings.name != Routes.premios) {
+            Navigator.pushReplacementNamed(context, Routes.premios);
+          }
+          //Navigator.pop(dropdownKey.currentContext!);
+        },
+        style: menuButtonStyle,
+        child: const Text(
+          "PRÊMIOS",
+        ),
+      ),
+      // TextButton(
+      //   onPressed: () {
+      //     if (ModalRoute.of(context)!.settings.name != Routes.empresas) {
+      //       Navigator.pushReplacementNamed(
+      //           context, Routes.empresas);
+      //     }
+      //     //Navigator.pop(dropdownKey.currentContext!);
+      //   },
+      //   style: menuButtonStyle,
+      //   child: const Text(
+      //     "PARCEIROS",
+      //   ),
+      // ),
+      // authcheck == true
+      //     ? TextButton(
+      //         onPressed: () {
+      //           auth.doLogout();
+      //           Navigator.pushReplacementNamed(context, Routes.home);
+      //           //Navigator.pop(dropdownKey.currentContext!);
+      //         },
+      //         style: menuButtonStyle,
+      //         child: const Text(
+      //           "SAIR",
+      //         ),
+      //       )
+      //     : const SizedBox(
+      //         width: 0,
+      //       )
+    ];
+  }
+
+  routeManager() {}
+
+  menuMobile(BuildContext context) {
+    rebuild();
+    return Container(
+      width: double.infinity,
+      margin: const EdgeInsets.only(top: 45, bottom: 15),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          InkWell(
+            hoverColor: Colors.transparent,
+            highlightColor: Colors.transparent,
+            splashColor: Colors.transparent,
+            onTap: () => Navigator.popUntil(
+                context, ModalRoute.withName(Navigator.defaultRouteName)),
+            child: Text(
+              "CASA DECOR",
+              style: GoogleFonts.montserrat(
+                color: textPrimary,
+                fontSize: 15,
+                letterSpacing: 3,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ),
+          StreamBuilder<bool>(
+              stream: auth.loginCheckLoading.stream,
+              builder: (context, snapshot) {
+                return DropdownButton(
+                  key: dropdownKey,
+                  icon: const Icon(Icons.menu),
+                  disabledHint: Container(),
+                  underline: Container(),
+                  items: menuBody(snapshot.data ?? true)
+                      .map<DropdownMenuItem<Widget>>((Widget value) {
+                    return DropdownMenuItem(
+                      value: value,
+                      child: value,
+                    );
+                  }).toList(),
+                  onChanged: (value) {},
+                );
+              })
+        ],
+      ),
+    );
+  }
+
+  Future<bool> rebuild() async {
+    if (!mounted) return false;
+
+    // if there's a current frame,
+    if (SchedulerBinding.instance.schedulerPhase != SchedulerPhase.idle) {
+      // wait for the end of that frame.
+      await SchedulerBinding.instance.endOfFrame;
+      if (!mounted) return false;
+    }
+
+    setState(() {});
+    return true;
   }
 }

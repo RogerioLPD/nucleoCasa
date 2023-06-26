@@ -11,6 +11,7 @@ class Routes {
   static const String especificadorup = "especificadorup";
   static const String empresas = "empresas";
   static const String loginview = "loginview";
+  static const String splashscreen = "splashscreen";
   static const String loginespecificador = "loginespecificador";
   static const String loginadministrador = "loginadministrador";
   static const String registerempresas = "registerempresas";
@@ -23,6 +24,7 @@ class Routes {
   static const String premios = "premios";
   static const String table = "table";
   static const String extrato = "extrato";
+  static const String profile = "perfil";
   static const String menuside = "menuside";
   static const String lancamentos = "lancamentos";
 
