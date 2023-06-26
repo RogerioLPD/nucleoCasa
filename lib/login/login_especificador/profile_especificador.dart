@@ -6,7 +6,6 @@ import 'package:nucleo/model/user_details.dart';
 import 'package:nucleo/responsive.dart';
 
 class ProfileEspecificador extends StatefulWidget {
-
   ProfileEspecificador({super.key});
 
   @override
@@ -25,27 +24,30 @@ class _ProfileEspecificadorState extends State<ProfileEspecificador> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: kIsWeb ? PreferredSize(
-        preferredSize: const Size.fromHeight(150),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 50),
-          child: Row(
-            children: [
-              InkWell(
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  child: Container(
-                    child: const Icon(
-                      Icons.arrow_back,
-                      size: 30,
-                    ),
-                  ))
-            ],
-          ),
-        ),
-      ) : PreferredSize(
-          preferredSize: const Size.fromHeight(60), child: Container()),
+      appBar: kIsWeb
+          ? PreferredSize(
+              preferredSize: const Size.fromHeight(150),
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 50),
+                child: Row(
+                  children: [
+                    InkWell(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: Container(
+                          child: const Icon(
+                            Icons.arrow_back,
+                            size: 30,
+                          ),
+                        ))
+                  ],
+                ),
+              ),
+            )
+          : PreferredSize(
+              preferredSize: const Size.fromHeight(60), child: Container()),
       body: StreamBuilder<UserDetails>(
           stream: _controller.userController.stream,
           builder: (context, snapshot) {
@@ -76,8 +78,13 @@ class _ProfileEspecificadorState extends State<ProfileEspecificador> {
                 child: CachedNetworkImage(
                   height: 150,
                   fit: BoxFit.cover,
-                  imageUrl:
-                      "https://www.dmarge.com/wp-content/uploads/2021/01/dwayne-the-rock-.jpg",
+                  imageUrl: snapshot.data!.photo,
+                  placeholder: (context, url) =>
+                      const CircularProgressIndicator(),
+                  errorWidget: (context, url, error) => const Icon(
+                    Icons.account_circle_outlined,
+                    size: 150,
+                  ),
                   imageBuilder: (context, imageProvider) => Container(
                     decoration: BoxDecoration(
                       borderRadius: const BorderRadius.all(Radius.circular(80)),

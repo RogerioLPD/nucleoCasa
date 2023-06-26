@@ -202,28 +202,28 @@ class _LoginEspecificadorState extends State<LoginEspecificador> {
                   const SizedBox(
                     height: 30,
                   ),
-                  RichText(
-                    text: TextSpan(children: [
-                      TextSpan(
-                        text: "Não tem uma conta? ",
-                        style: GoogleFonts.montserrat(
-                            color: textPrimary,
-                            fontWeight: FontWeight.w700,
-                            fontSize: 13),
-                      ),
-                      TextSpan(
-                        text: 'Registre-se',
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () => Navigator.pushNamed(
-                              context, Routes.cadastroespecificador),
-                        style: GoogleFonts.montserrat(
-                            color: Colors.red,
-                            fontWeight: FontWeight.w700,
-                            fontSize: 13),
-                      ),
-                    ]),
-                  ),
-                  Align(
+                  // RichText(
+                  //   text: TextSpan(children: [
+                  //     TextSpan(
+                  //       text: "Não tem uma conta? ",
+                  //       style: GoogleFonts.montserrat(
+                  //           color: textPrimary,
+                  //           fontWeight: FontWeight.w700,
+                  //           fontSize: 13),
+                  //     ),
+                  //     TextSpan(
+                  //       text: 'Registre-se',
+                  //       recognizer: TapGestureRecognizer()
+                  //         ..onTap = () => Navigator.pushNamed(
+                  //             context, Routes.cadastroespecificador),
+                  //       style: GoogleFonts.montserrat(
+                  //           color: Colors.red,
+                  //           fontWeight: FontWeight.w700,
+                  //           fontSize: 13),
+                  //     ),
+                  //   ]),
+                  // ),
+                  kIsWeb ?  Align(
                     alignment: Alignment.topRight,
                     child: MaterialButton(
                       padding: const EdgeInsets.symmetric(horizontal: 6),
@@ -239,7 +239,7 @@ class _LoginEspecificadorState extends State<LoginEspecificador> {
                         ),
                       ),
                     ),
-                  ),
+                  ) : Container(),
                 ],
               ),
             ),

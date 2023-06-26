@@ -11,6 +11,8 @@ A few resources to get you started if this is your first Flutter project:
 - cd ~/desktop/dev/
 - export PATH="$PATH:`pwd`/flutter/bin"
 - /Volumes/Disco2/lagadoinc/ncd/nucleoCasa
+- build for ios -> open /Volumes/Disco2/lagadoinc/ncd/nucleoCasa/build/ios/archive/Runner.xcarchive
+- 
 
 - [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
 - [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
