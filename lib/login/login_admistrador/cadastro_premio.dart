@@ -1,10 +1,15 @@
+import 'dart:developer';
+
 import 'package:brasil_fields/brasil_fields.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
+import 'package:nucleo/components/blog.dart';
 import 'package:nucleo/components/color.dart';
+import 'package:nucleo/controllers/administrator_controller.dart';
 
 import '../../routes.dart';
 
@@ -16,31 +21,38 @@ class CadastroPremio extends StatefulWidget {
 }
 
 class _CadastroPremioState extends State<CadastroPremio> {
+  final AdministradorController _controller = AdministradorController();
   bool isActive = false;
   final _formKey = GlobalKey<FormState>();
-  final _nomeController = TextEditingController();
-  final _cpfController = TextEditingController();
-  final _emailController = TextEditingController();
-  final _senhaController = TextEditingController();
-  final _senhaCController = TextEditingController();
-  bool visivelSenha = true;
-  bool visivelCSenha = true;
+  final _pointsController = TextEditingController();
+  final _titleController = TextEditingController();
+  final _descriptionController = TextEditingController();
 
-  void verSenha() {
-    setState(() {
-      visivelSenha = !visivelSenha;
-    });
-  }
+  List<PlatformFile>? _paths;
 
-  void verCSenha() {
-    setState(() {
-      visivelCSenha = !visivelCSenha;
-    });
+  void pickFiles() async {
+    try {
+      _paths = (await FilePicker.platform.pickFiles(
+        type: FileType.custom,
+        allowMultiple: false,
+        onFileLoading: (FilePickerStatus status) => print(status),
+        allowedExtensions: ['png', 'jpg', 'jpeg', 'heic'],
+      ))
+          ?.files;
+    } on PlatformException catch (e) {
+      log('Unsupported operation' + e.toString());
+    } catch (e) {
+      log(e.toString());
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: const PreferredSize(
+        preferredSize: Size.fromHeight(150),
+        child: MenuBar1(),
+      ),
       body: Center(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(24),
@@ -61,136 +73,74 @@ class _CadastroPremioState extends State<CadastroPremio> {
                 const SizedBox(
                   height: 40,
                 ),
+                TextButton(
+                  child: const Text('UPLOAD FILE'),
+                  onPressed: () async {
+                    pickFiles();
+                  },
+                ),
                 TextFormField(
                   keyboardType: TextInputType.text,
-                  controller: _nomeController,
+                  controller: _titleController,
                   inputFormatters: [
                     LengthLimitingTextInputFormatter(20),
-                    FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z ]')),
+                    //FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z ]')),
                   ],
                   decoration: const InputDecoration(
-                    hintText: 'Nome ou Razão Social',
+                    hintText: 'Nome do premio',
                     hintStyle: TextStyle(color: Colors.grey, fontSize: 14),
                     prefixIcon: Icon(
-                      Icons.person_outlined,
+                      Icons.badge,
                     ),
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Digite seu nome';
+                      return 'Digite o nome do premio';
                     }
                     return null;
                   },
                 ),
                 TextFormField(
-                    inputFormatters: [
-                      FilteringTextInputFormatter.digitsOnly,
-                      CpfOuCnpjFormatter()
-                    ],
-                    autofocus: false,
-                    controller: _cpfController,
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return ("Cpf Cnpj não pode estar vazio");
-                      }
-                      return null;
-                    },
-                    textInputAction: TextInputAction.next,
-                    decoration: const InputDecoration(
-                        hintText: "CPF/CNPJ",
-                        hintStyle: TextStyle(color: Colors.grey, fontSize: 14),
-                        prefixIcon: Icon(
-                          Icons.account_circle,
-                          color: Color(0xFF3A3A3A),
-                        ))),
-                TextFormField(
-                  keyboardType: TextInputType.emailAddress,
-                  controller: _emailController,
-                  decoration: const InputDecoration(
-                    hintText: 'Digite seu e-mail',
-                    hintStyle: TextStyle(color: Colors.grey, fontSize: 14),
-                    prefixIcon: Icon(Icons.mail_outline),
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Digite seu e-mail';
-                    } else if (!RegExp(
-                            r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
-                        .hasMatch(value)) {
-                      return 'Digite um e-mail válido';
-                    }
-                    return null;
-                  },
-                ),
-                TextFormField(
-                  obscureText: visivelSenha,
-                  controller: _senhaController,
-                  keyboardType: TextInputType.visiblePassword,
-                  decoration: InputDecoration(
-                    hintText: 'Digite sua senha',
-                    hintStyle:
-                        const TextStyle(color: Colors.grey, fontSize: 14),
-                    prefixIcon: const Icon(Icons.lock_outline),
-                    suffixIcon: IconButton(
-                      icon: Icon(visivelSenha
-                          ? Icons.visibility_outlined
-                          : Icons.visibility_off_outlined),
-                      onPressed: () {
-                        verSenha();
-                      },
-                    ),
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Digite sua senha';
-                    }
-                    return null;
-                  },
-                ),
-                TextFormField(
-                  obscureText: visivelCSenha,
-                  controller: _senhaCController,
-                  keyboardType: TextInputType.visiblePassword,
-                  decoration: InputDecoration(
-                    hintText: 'Confirme sua senha',
-                    hintStyle:
-                        const TextStyle(color: Colors.grey, fontSize: 14),
-                    prefixIcon: const Icon(Icons.lock_outline),
-                    suffixIcon: IconButton(
-                      icon: Icon(visivelCSenha
-                          ? Icons.visibility_outlined
-                          : Icons.visibility_off_outlined),
-                      onPressed: () {
-                        verCSenha();
-                      },
-                    ),
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Confirme sua senha';
-                    } else if (value != _senhaController.text) {
-                      return 'Suas senhas não conferem';
-                    }
-                    return null;
-                  },
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Checkbox(
-                      value: isActive,
-                      onChanged: (value) => setState(() {
-                        isActive = value!;
-                      }),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 18.0),
-                      child: Text(
-                        'Eu aceito os termos e condições\ne a politica de privacidade',
-                        style: TextStyle(color: Colors.grey[400], fontSize: 10),
-                      ),
-                    ),
+                  keyboardType: TextInputType.number,
+                  controller: _pointsController,
+                  inputFormatters: [
+                    LengthLimitingTextInputFormatter(20),
+                    FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9 ]')),
                   ],
+                  decoration: const InputDecoration(
+                    hintText: 'Quantidade de pontos',
+                    hintStyle: TextStyle(color: Colors.grey, fontSize: 14),
+                    prefixIcon: Icon(
+                      Icons.attach_money,
+                    ),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Digite a quantidade de pontos';
+                    }
+                    return null;
+                  },
+                ),
+                TextFormField(
+                  keyboardType: TextInputType.text,
+                  controller: _descriptionController,
+                  inputFormatters: [
+                    LengthLimitingTextInputFormatter(20),
+                    //SFilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z ]')),
+                  ],
+                  decoration: const InputDecoration(
+                    hintText: 'Descrição do Premio',
+                    hintStyle: TextStyle(color: Colors.grey, fontSize: 14),
+                    prefixIcon: Icon(
+                      Icons.description,
+                    ),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Digite a descrição';
+                    }
+                    return null;
+                  },
                 ),
                 const SizedBox(
                   height: 14,
@@ -202,7 +152,12 @@ class _CadastroPremioState extends State<CadastroPremio> {
                     elevation: 0,
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
-                        bool cadastro = await fazerCadastro();
+                        bool cadastro = await _controller.createRearward(
+                          points: _pointsController.text,
+                          title: _titleController.text,
+                          description: _descriptionController.text,
+                          bytes: _paths!.first.bytes,
+                        );
                         if (cadastro) {
                           // ignore: use_build_context_synchronously
                           Navigator.pop(context);
@@ -226,20 +181,6 @@ class _CadastroPremioState extends State<CadastroPremio> {
                 ),
                 const SizedBox(
                   height: 30,
-                ),
-                RichText(
-                  text: TextSpan(children: [
-                    TextSpan(
-                      text: "Já tem uma conta? Faça o Login ",
-                      recognizer: TapGestureRecognizer()
-                        ..onTap = () =>
-                            Navigator.pushNamed(context, Routes.loginview),
-                      style: GoogleFonts.montserrat(
-                          color: textPrimary,
-                          fontWeight: FontWeight.w700,
-                          fontSize: 13),
-                    ),
-                  ]),
                 ),
                 Align(
                   alignment: Alignment.topRight,
@@ -267,27 +208,5 @@ class _CadastroPremioState extends State<CadastroPremio> {
         ),
       ),
     );
-  }
-
-  Future<bool> fazerCadastro() async {
-    var url =
-        Uri.parse('https://rogerio-esms.herokuapp.com/api/cadastro/empresa/');
-    Map<String, String> headers = {
-      'content-type': 'application/json',
-    };
-    Map<String, dynamic> body = {
-      'email': _emailController.text,
-      'password': _senhaController.text,
-    };
-    var response = await http.post(
-      url,
-      headers: headers,
-      body: body,
-    );
-    if (response.statusCode == 200) {
-      return true;
-    } else {
-      return false;
-    }
   }
 }

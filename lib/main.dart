@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:nucleo/login/login_admistrador/cadastro_premio.dart';
 import 'package:nucleo/login/login_admistrador/home_administrador.dart';
 import 'package:nucleo/login/login_especificador/home_espeficador.dart';
 import 'package:nucleo/login/login_especificador/profile_especificador.dart';
@@ -84,6 +85,8 @@ class MyApp extends StatelessWidget {
               return const HomeEmpresas();
             case Routes.cadastroespecificador:
               return const CadastroEspecificador();
+            case Routes.cadastropremio:
+              return CadastroPremio();
             case Routes.homeadministrador:
               return const HomeAdministrador();
             case Routes.extrato:

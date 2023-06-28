@@ -9,6 +9,7 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:nucleo/components/color.dart';
+import 'package:nucleo/components/components.dart';
 import 'package:nucleo/controllers/administrator_controller.dart';
 
 import '../../routes.dart';
@@ -21,29 +22,25 @@ class RegisterEmpresas extends StatefulWidget {
 }
 
 class _RegisterEmpresasState extends State<RegisterEmpresas> {
+  final AdministradorController _controller = AdministradorController();
   bool isActive = false;
   final _formKey = GlobalKey<FormState>();
   final _nomeController = TextEditingController();
-  //final _cnpjController = TextEditingController();
-  final _cityController = TextEditingController();
-  final AdministradorController _controller = AdministradorController();
-  List<PlatformFile>? _paths;
-
-
+  final _cpfController = TextEditingController();
+  final _seguimentoController = TextEditingController();
+  final _telefoneController = TextEditingController();
+  final _celularController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _enderecoController = TextEditingController();
+  final _numeroController = TextEditingController();
+  final _bairroController = TextEditingController();
+  final _cidadeController = TextEditingController();
+  final _estadoController = TextEditingController();
+  final _senhaController = TextEditingController();
+  final _senhaCController = TextEditingController();
   bool visivelSenha = true;
   bool visivelCSenha = true;
-
-  void verSenha() {
-    setState(() {
-      visivelSenha = !visivelSenha;
-    });
-  }
-
-  void verCSenha() {
-    setState(() {
-      visivelCSenha = !visivelCSenha;
-    });
-  }
+  List<PlatformFile>? _paths;
 
   void pickFiles() async {
     try {
@@ -61,9 +58,25 @@ class _RegisterEmpresasState extends State<RegisterEmpresas> {
     }
   }
 
+  void verSenha() {
+    setState(() {
+      visivelSenha = !visivelSenha;
+    });
+  }
+
+  void verCSenha() {
+    setState(() {
+      visivelCSenha = !visivelCSenha;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: const PreferredSize(
+        preferredSize: Size.fromHeight(150),
+        child: MenuBar1(),
+      ),
       body: Center(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(24),
@@ -85,7 +98,7 @@ class _RegisterEmpresasState extends State<RegisterEmpresas> {
                   height: 40,
                 ),
                 TextButton(
-                  child: Text('UPLOAD FILE'),
+                  child: const Text('UPLOAD FILE'),
                   onPressed: () async {
                     pickFiles();
                   },
@@ -112,17 +125,130 @@ class _RegisterEmpresasState extends State<RegisterEmpresas> {
                   },
                 ),
                 TextFormField(
+                    inputFormatters: [
+                      FilteringTextInputFormatter.digitsOnly,
+                      CpfOuCnpjFormatter()
+                    ],
+                    autofocus: false,
+                    controller: _cpfController,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return ("Cpf Cnpj não pode estar vazio");
+                      }
+                      return null;
+                    },
+                    textInputAction: TextInputAction.next,
+                    decoration: const InputDecoration(
+                        hintText: "CPF/CNPJ",
+                        hintStyle: TextStyle(color: Colors.grey, fontSize: 14),
+                        prefixIcon: Icon(
+                          Icons.account_circle,
+                          color: Color(0xFF3A3A3A),
+                        ))),
+                TextFormField(
+                  keyboardType: TextInputType.emailAddress,
+                  controller: _emailController,
+                  decoration: const InputDecoration(
+                    hintText: 'Digite seu e-mail',
+                    hintStyle: TextStyle(color: Colors.grey, fontSize: 14),
+                    prefixIcon: Icon(Icons.mail_outline),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Digite seu e-mail';
+                    } else if (!RegExp(
+                        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
+                        .hasMatch(value)) {
+                      return 'Digite um e-mail válido';
+                    }
+                    return null;
+                  },
+                ),
+                TextFormField(
+                  obscureText: visivelSenha,
+                  controller: _senhaController,
+                  keyboardType: TextInputType.visiblePassword,
+                  decoration: InputDecoration(
+                    hintText: 'Digite sua senha',
+                    hintStyle:
+                    const TextStyle(color: Colors.grey, fontSize: 14),
+                    prefixIcon: const Icon(Icons.lock_outline),
+                    suffixIcon: IconButton(
+                      icon: Icon(visivelSenha
+                          ? Icons.visibility_outlined
+                          : Icons.visibility_off_outlined),
+                      onPressed: () {
+                        verSenha();
+                      },
+                    ),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Digite sua senha';
+                    }
+                    return null;
+                  },
+                ),
+                TextFormField(
+                  obscureText: visivelCSenha,
+                  controller: _senhaCController,
+                  keyboardType: TextInputType.visiblePassword,
+                  decoration: InputDecoration(
+                    hintText: 'Confirme sua senha',
+                    hintStyle:
+                    const TextStyle(color: Colors.grey, fontSize: 14),
+                    prefixIcon: const Icon(Icons.lock_outline),
+                    suffixIcon: IconButton(
+                      icon: Icon(visivelCSenha
+                          ? Icons.visibility_outlined
+                          : Icons.visibility_off_outlined),
+                      onPressed: () {
+                        verCSenha();
+                      },
+                    ),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Confirme sua senha';
+                    } else if (value != _senhaController.text) {
+                      return 'Suas senhas não conferem';
+                    }
+                    return null;
+                  },
+                ),
+                TextFormField(
                   keyboardType: TextInputType.text,
-                  controller: _cityController,
+                  controller: _seguimentoController,
                   inputFormatters: [
                     LengthLimitingTextInputFormatter(20),
                     FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z ]')),
                   ],
                   decoration: const InputDecoration(
-                    hintText: 'Cidade',
+                    hintText: 'Seguimento',
                     hintStyle: TextStyle(color: Colors.grey, fontSize: 14),
                     prefixIcon: Icon(
-                      Icons.person_outlined,
+                      Icons.segment,
+                    ),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Digite seu Segmento';
+                    }
+                    return null;
+                  },
+                ),
+                TextFormField(
+                  keyboardType: TextInputType.text,
+                  controller: _telefoneController,
+                  inputFormatters: [
+                    LengthLimitingTextInputFormatter(20),
+                    FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z ]')),
+                  ],
+                  decoration: const InputDecoration(
+                    hintText: 'Telefone',
+                    hintStyle: TextStyle(color: Colors.grey, fontSize: 14),
+                    prefixIcon: Icon(
+                      Icons.phone,
                     ),
                   ),
                   validator: (value) {
@@ -132,118 +258,173 @@ class _RegisterEmpresasState extends State<RegisterEmpresas> {
                     return null;
                   },
                 ),
-                // TextFormField(
-                //     inputFormatters: [
-                //       FilteringTextInputFormatter.digitsOnly,
-                //       CpfOuCnpjFormatter()
-                //     ],
-                //     autofocus: false,
-                //     controller: _cnpjController,
-                //     validator: (value) {
-                //       if (value!.isEmpty) {
-                //         return ("Cpf Cnpj não pode estar vazio");
-                //       }
-                //       return null;
-                //     },
-                //     textInputAction: TextInputAction.next,
-                //     decoration: const InputDecoration(
-                //         hintText: "CPF/CNPJ",
-                //         hintStyle: TextStyle(color: Colors.grey, fontSize: 14),
-                //         prefixIcon: Icon(
-                //           Icons.account_circle,
-                //           color: Color(0xFF3A3A3A),
-                //         ))),
-                // TextFormField(
-                //   keyboardType: TextInputType.emailAddress,
-                //   controller: _emailController,
-                //   decoration: const InputDecoration(
-                //     hintText: 'Digite seu e-mail',
-                //     hintStyle: TextStyle(color: Colors.grey, fontSize: 14),
-                //     prefixIcon: Icon(Icons.mail_outline),
-                //   ),
-                //   validator: (value) {
-                //     if (value == null || value.isEmpty) {
-                //       return 'Digite seu e-mail';
-                //     } else if (!RegExp(
-                //             r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
-                //         .hasMatch(value)) {
-                //       return 'Digite um e-mail válido';
-                //     }
-                //     return null;
-                //   },
-                // ),
-                // TextFormField(
-                //   obscureText: visivelSenha,
-                //   controller: _senhaController,
-                //   keyboardType: TextInputType.visiblePassword,
-                //   decoration: InputDecoration(
-                //     hintText: 'Digite sua senha',
-                //     hintStyle:
-                //         const TextStyle(color: Colors.grey, fontSize: 14),
-                //     prefixIcon: const Icon(Icons.lock_outline),
-                //     suffixIcon: IconButton(
-                //       icon: Icon(visivelSenha
-                //           ? Icons.visibility_outlined
-                //           : Icons.visibility_off_outlined),
-                //       onPressed: () {
-                //         verSenha();
-                //       },
-                //     ),
-                //   ),
-                //   validator: (value) {
-                //     if (value == null || value.isEmpty) {
-                //       return 'Digite sua senha';
-                //     }
-                //     return null;
-                //   },
-                // ),
-                // TextFormField(
-                //   obscureText: visivelCSenha,
-                //   controller: _senhaCController,
-                //   keyboardType: TextInputType.visiblePassword,
-                //   decoration: InputDecoration(
-                //     hintText: 'Confirme sua senha',
-                //     hintStyle:
-                //         const TextStyle(color: Colors.grey, fontSize: 14),
-                //     prefixIcon: const Icon(Icons.lock_outline),
-                //     suffixIcon: IconButton(
-                //       icon: Icon(visivelCSenha
-                //           ? Icons.visibility_outlined
-                //           : Icons.visibility_off_outlined),
-                //       onPressed: () {
-                //         verCSenha();
-                //       },
-                //     ),
-                //   ),
-                //   validator: (value) {
-                //     if (value == null || value.isEmpty) {
-                //       return 'Confirme sua senha';
-                //     } else if (value != _senhaController.text) {
-                //       return 'Suas senhas não conferem';
-                //     }
-                //     return null;
-                //   },
-                // ),
-                // Row(
-                //   mainAxisAlignment: MainAxisAlignment.start,
-                //   children: [
-                //     Checkbox(
-                //       value: isActive,
-                //       onChanged: (value) => setState(() {
-                //         isActive = value!;
-                //       }),
-                //     ),
-                //     Padding(
-                //       padding: const EdgeInsets.only(top: 18.0),
-                //       child: Text(
-                //         'Eu aceito os termos e condições\ne a politica de privacidade',
-                //         style: TextStyle(color: Colors.grey[400], fontSize: 10),
-                //       ),
-                //     ),
-                //   ],
-                // ),
+                TextFormField(
+                  keyboardType: TextInputType.text,
+                  controller: _celularController,
+                  inputFormatters: [
+                    LengthLimitingTextInputFormatter(20),
+                    FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z ]')),
+                  ],
+                  decoration: const InputDecoration(
+                    hintText: 'Celular',
+                    hintStyle: TextStyle(color: Colors.grey, fontSize: 14),
+                    prefixIcon: Icon(
+                      Icons.phone_android,
+                    ),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Digite seu Celular';
+                    }
+                    return null;
+                  },
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: TextFormField(
+                        keyboardType: TextInputType.text,
+                        controller: _enderecoController,
+                        inputFormatters: [
+                          LengthLimitingTextInputFormatter(20),
+                          FilteringTextInputFormatter.allow(
+                              RegExp(r'[a-zA-Z0-9]')),
+                        ],
+                        decoration: const InputDecoration(
+                          hintText: 'Endereço',
+                          hintStyle:
+                          TextStyle(color: Colors.grey, fontSize: 14),
+                          prefixIcon: Icon(
+                            Icons.place,
+                          ),
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Digite seu Endereço';
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    SizedBox(
+                      width: 100,
+                      child: TextFormField(
+                        keyboardType: TextInputType.text,
+                        controller: _numeroController,
+                        inputFormatters: [
+                          LengthLimitingTextInputFormatter(20),
+                          FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                        ],
+                        decoration: const InputDecoration(
+                          hintText: 'Numero',
+                          hintStyle:
+                          TextStyle(color: Colors.grey, fontSize: 14),
+                          prefixIcon: Icon(
+                            Icons.place,
+                          ),
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Digite seu Endereço';
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    SizedBox(
+                      width: 250,
+                      child: TextFormField(
+                        keyboardType: TextInputType.text,
+                        controller: _bairroController,
+                        inputFormatters: [
+                          LengthLimitingTextInputFormatter(20),
+                          FilteringTextInputFormatter.allow(
+                              RegExp(r'[a-zA-Z0-9]')),
+                        ],
+                        decoration: const InputDecoration(
+                          hintText: 'Bairro',
+                          hintStyle:
+                          TextStyle(color: Colors.grey, fontSize: 14),
+                          prefixIcon: Icon(
+                            Icons.place,
+                          ),
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Digite seu Bairro';
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: TextFormField(
+                        keyboardType: TextInputType.text,
+                        controller: _cidadeController,
+                        inputFormatters: [
+                          LengthLimitingTextInputFormatter(20),
+                          FilteringTextInputFormatter.allow(
+                              RegExp(r'[a-zA-Z0-9]')),
+                        ],
+                        decoration: const InputDecoration(
+                          hintText: 'Cidade',
+                          hintStyle:
+                          TextStyle(color: Colors.grey, fontSize: 14),
+                          prefixIcon: Icon(
+                            Icons.place,
+                          ),
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Digite seu Cidade';
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Expanded(
+                      child: TextFormField(
+                        keyboardType: TextInputType.text,
+                        controller: _estadoController,
+                        inputFormatters: [
+                          LengthLimitingTextInputFormatter(20),
+                          FilteringTextInputFormatter.allow(
+                              RegExp(r'[a-zA-Z0-9]')),
+                        ],
+                        decoration: const InputDecoration(
+                          hintText: 'Estado',
+                          hintStyle:
+                          TextStyle(color: Colors.grey, fontSize: 14),
+                          prefixIcon: Icon(
+                            Icons.place,
+                          ),
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Digite seu estado';
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+                  ],
+                ),
                 const SizedBox(
-                  height: 14,
+                  height: 40,
                 ),
                 Align(
                   alignment: Alignment.bottomCenter,
@@ -252,7 +433,19 @@ class _RegisterEmpresasState extends State<RegisterEmpresas> {
                     elevation: 0,
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
-                        bool cadastro = await _controller.createEnterprise(_nomeController.text, _cityController.text,_paths!.first.bytes);
+                        bool cadastro = await _controller.createEnterprise(
+                          name: _nomeController.text,
+                          cpf: _cpfController.text.trim(),
+                          seguimento: _seguimentoController.text,
+                          telefone: _telefoneController.text,
+                          celular: _celularController.text,
+                          email: _emailController.text,
+                          endereco: _enderecoController.text,
+                          numero: _numeroController.text,
+                          bairro: _bairroController.text,
+                          cidade: _cidadeController.text,
+                          password: _senhaController.text,
+                        );
                         if (cadastro) {
                           // ignore: use_build_context_synchronously
                           Navigator.pop(context);
@@ -275,7 +468,7 @@ class _RegisterEmpresasState extends State<RegisterEmpresas> {
                   ),
                 ),
                 const SizedBox(
-                  height: 30,
+                  height: 60,
                 ),
                 // RichText(
                 //   text: TextSpan(children: [
@@ -318,26 +511,4 @@ class _RegisterEmpresasState extends State<RegisterEmpresas> {
       ),
     );
   }
-  //
-  // Future<bool> fazerCadastro() async {
-  //   var url =
-  //       Uri.parse('https://rogerio-esms.herokuapp.com/api/cadastro/empresa/');
-  //   Map<String, String> headers = {
-  //     'content-type': 'application/json',
-  //   };
-  //   Map<String, dynamic> body = {
-  //     'email': _emailController.text,
-  //     'password': _senhaController.text,
-  //   };
-  //   var response = await http.post(
-  //     url,
-  //     headers: headers,
-  //     body: body,
-  //   );
-  //   if (response.statusCode == 200) {
-  //     return true;
-  //   } else {
-  //     return false;
-  //   }
-  // }
 }

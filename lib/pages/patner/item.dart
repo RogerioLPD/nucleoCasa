@@ -9,11 +9,13 @@ import 'package:nucleo/pages/premios/viagem_item.dart';
 class Item extends StatelessWidget {
   final String? photo;
   final String name;
+  final String? description;
   final String city;
   Item({
     Key? key,
     required this.photo,
     required this.name,
+    required this.description,
     required this.city,
   }) : super(key: key);
   int selectedIndex = 0;
@@ -40,16 +42,24 @@ class Item extends StatelessWidget {
                 ),
               ],
             ),
-            child: photo != "" ? Hero(
-              tag: "$photo",
-              child: CachedNetworkImage(
-                imageUrl: photo!,
-                fit: BoxFit.contain,
-                placeholder: (context, url) => new CircularProgressIndicator(),
-                errorWidget: (context, url, error) => new Icon(Icons.error),
-
-              ),
-            ) : Container(),
+            child: photo != ""
+                ? Hero(
+                    tag: "$photo",
+                    child: CachedNetworkImage(
+                      height: 80,
+                      width: 80,
+                      imageUrl: photo!,
+                      fit: BoxFit.contain,
+                      placeholder: (context, url) => const SizedBox(
+                        width: 80,
+                        height: 80,
+                        child: CircularProgressIndicator(),
+                      ),
+                      errorWidget: (context, url, error) =>
+                          const Icon(Icons.error),
+                    ),
+                  )
+                : Container(),
           )),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: kPadding / 4),
@@ -59,11 +69,17 @@ class Item extends StatelessWidget {
                   TextStyle(color: Colors.black.withOpacity(0.5), fontSize: 20),
             ),
           ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: kPadding / 4),
+            child: Text(
+              description ?? "",
+              style: TextStyle(color: Colors.black.withOpacity(0.5)),
+            ),
+          ),
           Text(
             city,
             style: TextStyle(color: Colors.black.withOpacity(0.5)),
           ),
-
         ],
       ),
     );
