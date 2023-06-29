@@ -5,12 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:nucleo/kpadding.dart';
 
 
-class Item extends StatelessWidget {
+class ItemPartner extends StatelessWidget {
   final String? photo;
   final String name;
   final String? description;
   final String city;
-  Item({
+  ItemPartner({
     Key? key,
     required this.photo,
     required this.name,
@@ -26,7 +26,7 @@ class Item extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Container(
-            padding: const EdgeInsets.only(left: kPadding, right: kPadding),
+            padding: const EdgeInsets.only(left: kPadding, right: 80),
             decoration: BoxDecoration(
           color: Theme.of(context).primaryColor,
           borderRadius: BorderRadius.circular(16),
@@ -45,10 +45,10 @@ class Item extends StatelessWidget {
                   tag: "$photo",
                   child: CachedNetworkImage(
 
-                    height: 250,
+                    height: 300,
                     width: 450,
                     imageUrl: photo!,
-                    fit: BoxFit.fill,
+                    fit: BoxFit.contain,
                     placeholder: (context, url) => const SizedBox(
                       width: 80,
                       height: 80,
@@ -73,6 +73,8 @@ class Item extends StatelessWidget {
             padding: const EdgeInsets.symmetric(vertical: kPadding /4),
             child: Text(
               description ?? "",
+              maxLines: 3,
+              overflow: TextOverflow.fade,
               style: TextStyle(color: Colors.black.withOpacity(0.5)),
             ),
           ),

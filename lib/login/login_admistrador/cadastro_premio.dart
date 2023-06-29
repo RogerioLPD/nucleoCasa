@@ -105,7 +105,7 @@ class _CadastroPremioState extends State<CadastroPremio> {
                   controller: _pointsController,
                   inputFormatters: [
                     LengthLimitingTextInputFormatter(20),
-                    FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9 ]')),
+                    FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9/S ]')),
                   ],
                   decoration: const InputDecoration(
                     hintText: 'Quantidade de pontos',
@@ -126,7 +126,7 @@ class _CadastroPremioState extends State<CadastroPremio> {
                   controller: _descriptionController,
                   inputFormatters: [
                     //LengthLimitingTextInputFormatter(20),
-                     FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9]')),
+                     FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9 àèìòùÀÈÌÒÙáéíóúýÁÉÍÓÚÝâêîôûÂÊÎÔÛãñõÃÑÕäëïöüÿÄËÏÖÜŸçÇßØøÅåÆæœ]')),
                   ],
                   decoration: const InputDecoration(
                     hintText: 'Descrição do Premio',

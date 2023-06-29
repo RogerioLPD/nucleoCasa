@@ -42,8 +42,8 @@ class _RegisterEmpresasState extends State<RegisterEmpresas> {
   bool visivelCSenha = true;
   List<PlatformFile>? _paths;
 
-  var regexTextAnNumber = FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9]'));
-  var regexTextOnly = FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z]'));
+  var regexTextAnNumber = FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9 àèìòùÀÈÌÒÙáéíóúýÁÉÍÓÚÝâêîôûÂÊÎÔÛãñõÃÑÕäëïöüÿÄËÏÖÜŸçÇßØøÅåÆæœ]'));
+  var regexTextOnly = FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z àèìòùÀÈÌÒÙáéíóúýÁÉÍÓÚÝâêîôûÂÊÎÔÛãñõÃÑÕäëïöüÿÄËÏÖÜŸçÇßØøÅåÆæœ]'));
   var regexNumberOnly = FilteringTextInputFormatter.allow(RegExp(r'[0-9]'));
 
   void pickFiles() async {
@@ -433,7 +433,7 @@ class _RegisterEmpresasState extends State<RegisterEmpresas> {
                     elevation: 0,
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
-                        bool cadastro = await _controller.createSpecified(
+                        bool cadastro = await _controller.createEnterprise(
                           name: _nomeController.text,
                           cpf: _cpfController.text.trim(),
                           seguimento: _seguimentoController.text,
@@ -445,11 +445,12 @@ class _RegisterEmpresasState extends State<RegisterEmpresas> {
                           bairro: _bairroController.text,
                           cidade: _cidadeController.text,
                           password: _senhaController.text,
+                          estado: _estadoController.text,
                           bytes: _paths!.first.bytes,
                         );
                         if (cadastro) {
                           // ignore: use_build_context_synchronously
-                          Navigator.pop(context);
+                          Navigator.pushNamedAndRemoveUntil(context, Routes.registerempresas, (route) => false);
                         } else {
                           // ignore: use_build_context_synchronously
                           ScaffoldMessenger.of(context).showSnackBar(

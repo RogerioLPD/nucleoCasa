@@ -8,7 +8,6 @@ import 'package:nucleo/login/login_especificador/releases_especificador.dart';
 import 'package:nucleo/login/login_especificador/teste.dart';
 import 'package:nucleo/login/login_empresas/checagem_empresas.dart';
 import 'package:nucleo/login/login_admistrador/login_administrador.dart';
-import 'package:nucleo/login/login_empresas/home_screen.dart';
 import 'package:nucleo/login/login_empresas/lancamentos.dart';
 import 'package:nucleo/login/login_empresas/login_empresas.dart';
 import 'package:nucleo/login/login_admistrador/register_empresas.dart';
@@ -102,7 +101,7 @@ class MyApp extends StatelessWidget {
             case Routes.menuside:
               return const MenuSide();
             case Routes.lancamentos:
-              return const HomeEmpresas4();
+              return const HomeEmpresas();
 
             default:
               return const SizedBox.shrink();

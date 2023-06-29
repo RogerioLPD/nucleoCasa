@@ -106,7 +106,7 @@ class _PartnerEnterprisesState extends State<PartnerEnterprises> {
                                           for (var data in snapshot.data!)
                                             Padding(
                                               padding: const EdgeInsets.only(top: 20, bottom: 20),
-                                              child: Item(
+                                              child: ItemPartner(
                                                 photo: data.photo ?? "",
                                                 name: data.name ?? "",
                                                 description:
@@ -128,7 +128,7 @@ class _PartnerEnterprisesState extends State<PartnerEnterprises> {
                                     crossAxisSpacing: kPadding,
                                     childAspectRatio: 1.20,
                                   ),
-                                  itemBuilder: (context, index) => Item(
+                                  itemBuilder: (context, index) => ItemPartner(
                                     photo: snapshot.data![index].photo ?? "",
                                     name: snapshot.data![index].name ?? "",
                                     description:
@@ -147,7 +147,7 @@ class _PartnerEnterprisesState extends State<PartnerEnterprises> {
                                     crossAxisSpacing: kPadding,
                                     childAspectRatio: 1.20,
                                   ),
-                                  itemBuilder: (context, index) => Item(
+                                  itemBuilder: (context, index) => ItemPartner(
                                     photo: snapshot.data![index].photo ?? "",
                                     name: snapshot.data![index].name ?? "",
                                     description:
