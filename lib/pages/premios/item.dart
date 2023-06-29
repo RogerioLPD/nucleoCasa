@@ -40,9 +40,13 @@ class Item extends StatelessWidget {
             ),
             child: Hero(
           tag: "${item.uid}",
-          child: Image.network(
-            item.image_1!,
-            fit: BoxFit.contain,
+          child: Container(
+            width: double.infinity,
+            height: 220,
+            child: Image.network(
+              item.image_1!,
+              fit: BoxFit.contain,
+            ),
           ),
             ),
           ),

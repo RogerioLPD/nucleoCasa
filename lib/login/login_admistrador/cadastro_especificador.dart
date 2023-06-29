@@ -41,8 +41,8 @@ class _CadastroEspecificadorState extends State<CadastroEspecificador> {
   bool visivelCSenha = true;
   List<PlatformFile>? _paths;
 
-  var regexTextAnNumber = FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9]'));
-  var regexTextOnly = FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z]'));
+  var regexTextAnNumber = FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9 àèìòùÀÈÌÒÙáéíóúýÁÉÍÓÚÝâêîôûÂÊÎÔÛãñõÃÑÕäëïöüÿÄËÏÖÜŸçÇßØøÅåÆæœ]'));
+  var regexTextOnly = FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z àèìòùÀÈÌÒÙáéíóúýÁÉÍÓÚÝâêîôûÂÊÎÔÛãñõÃÑÕäëïöüÿÄËÏÖÜŸçÇßØøÅåÆæœ]'));
   var regexNumberOnly = FilteringTextInputFormatter.allow(RegExp(r'[0-9]'));
 
   void pickFiles() async {
@@ -443,12 +443,13 @@ class _CadastroEspecificadorState extends State<CadastroEspecificador> {
                           numero: _numeroController.text,
                           bairro: _bairroController.text,
                           cidade: _cidadeController.text,
+                          estado: _estadoController.text,
                           password: _senhaController.text,
                           bytes: _paths!.first.bytes,
                         );
                         if (cadastro) {
                           // ignore: use_build_context_synchronously
-                          Navigator.pop(context);
+                          Navigator.pushNamedAndRemoveUntil(context, Routes.cadastroespecificador, (route) => false);
                         } else {
                           // ignore: use_build_context_synchronously
                           ScaffoldMessenger.of(context).showSnackBar(

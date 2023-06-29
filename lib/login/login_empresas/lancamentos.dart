@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:brasil_fields/brasil_fields.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -6,26 +8,26 @@ import 'package:nucleo/components/components.dart';
 import 'package:nucleo/controllers/releases_controller.dart';
 import 'package:nucleo/routes.dart';
 
-class HomeEmpresas4 extends StatefulWidget {
-  const HomeEmpresas4({Key? key}) : super(key: key);
+class HomeEmpresas extends StatefulWidget {
+  const HomeEmpresas({Key? key}) : super(key: key);
 
   @override
-  State<HomeEmpresas4> createState() => _HomeEmpresas4State();
+  State<HomeEmpresas> createState() => _HomeEmpresasState();
 }
 
-class _HomeEmpresas4State extends State<HomeEmpresas4> {
+class _HomeEmpresasState extends State<HomeEmpresas> {
   Color get primarySwatch => Colors.grey;
   final ReleasesController _controller = ReleasesController();
   final valorVendasController = TextEditingController();
-  final valorPontosController = TextEditingController();
+  final StreamController valorPontosController = StreamController.broadcast();
   final nomeEstabelecimentoController = TextEditingController();
   final especificadorController = TextEditingController();
+  String valorPontosControllerText = "";
 
 
   @override
   void dispose() {
     valorVendasController.dispose();
-    valorPontosController.dispose();
     nomeEstabelecimentoController.dispose();
     especificadorController.dispose();
     super.dispose();
@@ -34,7 +36,8 @@ class _HomeEmpresas4State extends State<HomeEmpresas4> {
   void calcularPontos() {
     final valorVendas = double.tryParse(valorVendasController.text) ?? 0;
     final valorPontos = valorVendas / 1;
-    valorPontosController.text = valorPontos.toStringAsFixed(0);
+    valorPontosController.sink.add(valorPontos.toStringAsFixed(0));
+    valorPontosControllerText = valorPontos.toStringAsFixed(0);
   }
 
   @override
@@ -213,20 +216,21 @@ class _HomeEmpresas4State extends State<HomeEmpresas4> {
                             style: headlineTextStyle),
                       ),
                     ),
-                    Align(
-                      alignment: Alignment.center,
-                      child: Container(
-                        margin: marginBottom24,
-                        child: TextFormField(
-                          controller: valorPontosController,
-                          style: headlineTextStyle,
-                          readOnly: true, // Torna o campo somente leitura
-                        ),
-                      ),
+                    StreamBuilder(
+                      stream: valorPontosController.stream,
+                      builder: (context, snapshot) {
+                        return Align(
+                          alignment: Alignment.center,
+                          child: Container(
+                            margin: marginBottom24,
+                            child: Text(snapshot.hasData ? snapshot.data.toString() ?? "0" : "0",)
+                          ),
+                        );
+                      }
                     ),
                     OutlinedButton(
                       onPressed: () {
-                        _controller.doRelease(valorPontosController.text, nomeEstabelecimentoController.text, especificadorController.text);
+                        _controller.doRelease(valorPontosControllerText, nomeEstabelecimentoController.text, especificadorController.text);
                       },
                       style: ButtonStyle(
                         overlayColor:
