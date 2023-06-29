@@ -26,7 +26,7 @@ class AdministradorController {
     String token = sharedPreferences.getString('token')!;
     String image = base64.encode(bytes!);
     var url =
-    Uri.https("nucleocasadecor-production.up.railway.app", "/api/premio/");
+    Uri.https("nucleocasadecor-production.up.railway.app", "/api/cadastro/empresa/");
     Map<String, String> headers = {
       'Authorization': "Token $token",
     };
@@ -119,7 +119,7 @@ class AdministradorController {
     String token = sharedPreferences.getString('token')!;
     String image = base64.encode(bytes!);
     var url =
-        Uri.https("nucleocasadecor-production.up.railway.app", "/api/premio/");
+        Uri.https("nucleocasadecor-production.up.railway.app", "/api/cadastro/especificador/");
     Map<String, String> headers = {
       'Authorization': "Token $token",
     };
