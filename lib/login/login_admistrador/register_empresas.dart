@@ -42,6 +42,10 @@ class _RegisterEmpresasState extends State<RegisterEmpresas> {
   bool visivelCSenha = true;
   List<PlatformFile>? _paths;
 
+  var regexTextAnNumber = FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9]'));
+  var regexTextOnly = FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z]'));
+  var regexNumberOnly = FilteringTextInputFormatter.allow(RegExp(r'[0-9]'));
+
   void pickFiles() async {
     try {
       _paths = (await FilePicker.platform.pickFiles(
@@ -108,7 +112,7 @@ class _RegisterEmpresasState extends State<RegisterEmpresas> {
                   controller: _nomeController,
                   inputFormatters: [
                     LengthLimitingTextInputFormatter(20),
-                    FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z ]')),
+                    regexTextAnNumber
                   ],
                   decoration: const InputDecoration(
                     hintText: 'Nome ou Razão Social',
@@ -221,7 +225,7 @@ class _RegisterEmpresasState extends State<RegisterEmpresas> {
                   controller: _seguimentoController,
                   inputFormatters: [
                     LengthLimitingTextInputFormatter(20),
-                    FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z ]')),
+                    regexTextAnNumber
                   ],
                   decoration: const InputDecoration(
                     hintText: 'Seguimento',
@@ -242,7 +246,7 @@ class _RegisterEmpresasState extends State<RegisterEmpresas> {
                   controller: _telefoneController,
                   inputFormatters: [
                     LengthLimitingTextInputFormatter(20),
-                    FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z ]')),
+                    regexNumberOnly
                   ],
                   decoration: const InputDecoration(
                     hintText: 'Telefone',
@@ -263,7 +267,7 @@ class _RegisterEmpresasState extends State<RegisterEmpresas> {
                   controller: _celularController,
                   inputFormatters: [
                     LengthLimitingTextInputFormatter(20),
-                    FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z ]')),
+                    regexNumberOnly
                   ],
                   decoration: const InputDecoration(
                     hintText: 'Celular',
@@ -288,8 +292,7 @@ class _RegisterEmpresasState extends State<RegisterEmpresas> {
                         controller: _enderecoController,
                         inputFormatters: [
                           LengthLimitingTextInputFormatter(20),
-                          FilteringTextInputFormatter.allow(
-                              RegExp(r'[a-zA-Z0-9]')),
+                          regexTextAnNumber
                         ],
                         decoration: const InputDecoration(
                           hintText: 'Endereço',
@@ -317,7 +320,7 @@ class _RegisterEmpresasState extends State<RegisterEmpresas> {
                         controller: _numeroController,
                         inputFormatters: [
                           LengthLimitingTextInputFormatter(20),
-                          FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                          regexNumberOnly
                         ],
                         decoration: const InputDecoration(
                           hintText: 'Numero',
@@ -345,8 +348,7 @@ class _RegisterEmpresasState extends State<RegisterEmpresas> {
                         controller: _bairroController,
                         inputFormatters: [
                           LengthLimitingTextInputFormatter(20),
-                          FilteringTextInputFormatter.allow(
-                              RegExp(r'[a-zA-Z0-9]')),
+                          regexTextAnNumber
                         ],
                         decoration: const InputDecoration(
                           hintText: 'Bairro',
@@ -374,8 +376,7 @@ class _RegisterEmpresasState extends State<RegisterEmpresas> {
                         controller: _cidadeController,
                         inputFormatters: [
                           LengthLimitingTextInputFormatter(20),
-                          FilteringTextInputFormatter.allow(
-                              RegExp(r'[a-zA-Z0-9]')),
+                          regexTextAnNumber
                         ],
                         decoration: const InputDecoration(
                           hintText: 'Cidade',
@@ -402,8 +403,7 @@ class _RegisterEmpresasState extends State<RegisterEmpresas> {
                         controller: _estadoController,
                         inputFormatters: [
                           LengthLimitingTextInputFormatter(20),
-                          FilteringTextInputFormatter.allow(
-                              RegExp(r'[a-zA-Z0-9]')),
+                          regexTextAnNumber
                         ],
                         decoration: const InputDecoration(
                           hintText: 'Estado',
@@ -433,7 +433,7 @@ class _RegisterEmpresasState extends State<RegisterEmpresas> {
                     elevation: 0,
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
-                        bool cadastro = await _controller.createEnterprise(
+                        bool cadastro = await _controller.createSpecified(
                           name: _nomeController.text,
                           cpf: _cpfController.text.trim(),
                           seguimento: _seguimentoController.text,
@@ -445,6 +445,7 @@ class _RegisterEmpresasState extends State<RegisterEmpresas> {
                           bairro: _bairroController.text,
                           cidade: _cidadeController.text,
                           password: _senhaController.text,
+                          bytes: _paths!.first.bytes,
                         );
                         if (cadastro) {
                           // ignore: use_build_context_synchronously
