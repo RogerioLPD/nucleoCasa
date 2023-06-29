@@ -4,7 +4,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:nucleo/kpadding.dart';
 
-import 'package:nucleo/pages/premios/viagem_item.dart';
 
 class Item extends StatelessWidget {
   final String? photo;
@@ -26,41 +25,42 @@ class Item extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Expanded(
-              child: Container(
-            padding: const EdgeInsets.all(kPadding),
-            height: 180,
-            width: 450,
+          Container(
+            padding: const EdgeInsets.only(left: kPadding, right: kPadding),
             decoration: BoxDecoration(
-              color: Theme.of(context).primaryColor,
-              borderRadius: BorderRadius.circular(16),
-              boxShadow: [
-                BoxShadow(
-                  offset: const Offset(4, 4),
-                  blurRadius: 5,
-                  color: Colors.black.withOpacity(0.2),
-                ),
-              ],
+          color: Theme.of(context).primaryColor,
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: [
+            BoxShadow(
+              offset: const Offset(4, 4),
+              blurRadius: 5,
+              color: Colors.black.withOpacity(0.2),
+            ),
+          ],
             ),
             child: photo != ""
-                ? Hero(
-                    tag: "$photo",
-                    child: CachedNetworkImage(
-                      height: 80,
+            ? Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Hero(
+                  tag: "$photo",
+                  child: CachedNetworkImage(
+
+                    height: 250,
+                    width: 450,
+                    imageUrl: photo!,
+                    fit: BoxFit.fill,
+                    placeholder: (context, url) => const SizedBox(
                       width: 80,
-                      imageUrl: photo!,
-                      fit: BoxFit.contain,
-                      placeholder: (context, url) => const SizedBox(
-                        width: 80,
-                        height: 80,
-                        child: CircularProgressIndicator(),
-                      ),
-                      errorWidget: (context, url, error) =>
-                          const Icon(Icons.error),
+                      height: 80,
+                      child: CircularProgressIndicator(),
                     ),
-                  )
-                : Container(),
-          )),
+                    errorWidget: (context, url, error) =>
+                        const Icon(Icons.error),
+                  ),
+                ),
+            )
+            : Container(),
+          ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: kPadding / 4),
             child: Text(
@@ -70,7 +70,7 @@ class Item extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: kPadding / 4),
+            padding: const EdgeInsets.symmetric(vertical: kPadding /4),
             child: Text(
               description ?? "",
               style: TextStyle(color: Colors.black.withOpacity(0.5)),

@@ -41,6 +41,10 @@ class _CadastroEspecificadorState extends State<CadastroEspecificador> {
   bool visivelCSenha = true;
   List<PlatformFile>? _paths;
 
+  var regexTextAnNumber = FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9]'));
+  var regexTextOnly = FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z]'));
+  var regexNumberOnly = FilteringTextInputFormatter.allow(RegExp(r'[0-9]'));
+
   void pickFiles() async {
     try {
       _paths = (await FilePicker.platform.pickFiles(
@@ -106,8 +110,8 @@ class _CadastroEspecificadorState extends State<CadastroEspecificador> {
                   keyboardType: TextInputType.text,
                   controller: _nomeController,
                   inputFormatters: [
-                    LengthLimitingTextInputFormatter(20),
-                    FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z ]')),
+                    //LengthLimitingTextInputFormatter(20),
+                    regexTextAnNumber
                   ],
                   decoration: const InputDecoration(
                     hintText: 'Nome ou Razão Social',
@@ -219,8 +223,8 @@ class _CadastroEspecificadorState extends State<CadastroEspecificador> {
                   keyboardType: TextInputType.text,
                   controller: _seguimentoController,
                   inputFormatters: [
-                    LengthLimitingTextInputFormatter(20),
-                    FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z ]')),
+                    //LengthLimitingTextInputFormatter(20),
+                    regexTextAnNumber
                   ],
                   decoration: const InputDecoration(
                     hintText: 'Seguimento',
@@ -240,8 +244,8 @@ class _CadastroEspecificadorState extends State<CadastroEspecificador> {
                   keyboardType: TextInputType.text,
                   controller: _telefoneController,
                   inputFormatters: [
-                    LengthLimitingTextInputFormatter(20),
-                    FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z ]')),
+                    //LengthLimitingTextInputFormatter(20),
+                    regexNumberOnly
                   ],
                   decoration: const InputDecoration(
                     hintText: 'Telefone',
@@ -261,8 +265,8 @@ class _CadastroEspecificadorState extends State<CadastroEspecificador> {
                   keyboardType: TextInputType.text,
                   controller: _celularController,
                   inputFormatters: [
-                    LengthLimitingTextInputFormatter(20),
-                    FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z ]')),
+                    //LengthLimitingTextInputFormatter(20),
+                    regexNumberOnly
                   ],
                   decoration: const InputDecoration(
                     hintText: 'Celular',
@@ -286,9 +290,8 @@ class _CadastroEspecificadorState extends State<CadastroEspecificador> {
                         keyboardType: TextInputType.text,
                         controller: _enderecoController,
                         inputFormatters: [
-                          LengthLimitingTextInputFormatter(20),
-                          FilteringTextInputFormatter.allow(
-                              RegExp(r'[a-zA-Z0-9]')),
+                          //LengthLimitingTextInputFormatter(20),
+                          regexTextAnNumber
                         ],
                         decoration: const InputDecoration(
                           hintText: 'Endereço',
@@ -315,8 +318,8 @@ class _CadastroEspecificadorState extends State<CadastroEspecificador> {
                         keyboardType: TextInputType.text,
                         controller: _numeroController,
                         inputFormatters: [
-                          LengthLimitingTextInputFormatter(20),
-                          FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                          //LengthLimitingTextInputFormatter(20),
+                          regexNumberOnly
                         ],
                         decoration: const InputDecoration(
                           hintText: 'Numero',
@@ -343,9 +346,8 @@ class _CadastroEspecificadorState extends State<CadastroEspecificador> {
                         keyboardType: TextInputType.text,
                         controller: _bairroController,
                         inputFormatters: [
-                          LengthLimitingTextInputFormatter(20),
-                          FilteringTextInputFormatter.allow(
-                              RegExp(r'[a-zA-Z0-9]')),
+                          //LengthLimitingTextInputFormatter(20),
+                          regexTextAnNumber
                         ],
                         decoration: const InputDecoration(
                           hintText: 'Bairro',
@@ -372,9 +374,8 @@ class _CadastroEspecificadorState extends State<CadastroEspecificador> {
                         keyboardType: TextInputType.text,
                         controller: _cidadeController,
                         inputFormatters: [
-                          LengthLimitingTextInputFormatter(20),
-                          FilteringTextInputFormatter.allow(
-                              RegExp(r'[a-zA-Z0-9]')),
+                          //LengthLimitingTextInputFormatter(20),
+                          regexTextAnNumber
                         ],
                         decoration: const InputDecoration(
                           hintText: 'Cidade',
@@ -400,9 +401,8 @@ class _CadastroEspecificadorState extends State<CadastroEspecificador> {
                         keyboardType: TextInputType.text,
                         controller: _estadoController,
                         inputFormatters: [
-                          LengthLimitingTextInputFormatter(20),
-                          FilteringTextInputFormatter.allow(
-                              RegExp(r'[a-zA-Z0-9]')),
+                          //LengthLimitingTextInputFormatter(20),
+                          regexTextAnNumber
                         ],
                         decoration: const InputDecoration(
                           hintText: 'Estado',
@@ -444,6 +444,7 @@ class _CadastroEspecificadorState extends State<CadastroEspecificador> {
                           bairro: _bairroController.text,
                           cidade: _cidadeController.text,
                           password: _senhaController.text,
+                          bytes: _paths!.first.bytes,
                         );
                         if (cadastro) {
                           // ignore: use_build_context_synchronously

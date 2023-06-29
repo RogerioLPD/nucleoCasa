@@ -23,32 +23,29 @@ class Item extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Expanded(
-              child: Container(
+          Container(
             padding: const EdgeInsets.all(kPadding),
-            height: 300,
-            width: 450,
             decoration: BoxDecoration(
-              color: selected
-                  ? Theme.of(context).primaryColor
-                  : Colors.white.withOpacity(0.8),
-              borderRadius: BorderRadius.circular(16),
-              boxShadow: [
-                BoxShadow(
-                  offset: const Offset(4, 4),
-                  blurRadius: 5,
-                  color: Colors.black.withOpacity(0.2),
-                ),
-              ],
+          color: selected
+              ? Theme.of(context).primaryColor
+              : Colors.white.withOpacity(0.8),
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: [
+            BoxShadow(
+              offset: const Offset(4, 4),
+              blurRadius: 5,
+              color: Colors.black.withOpacity(0.2),
+            ),
+          ],
             ),
             child: Hero(
-              tag: "${item.uid}",
-              child: Image.network(
-                item.image_1!,
-                fit: BoxFit.contain,
-              ),
+          tag: "${item.uid}",
+          child: Image.network(
+            item.image_1!,
+            fit: BoxFit.contain,
+          ),
             ),
-          )),
+          ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: kPadding / 4),
             child: Text(
