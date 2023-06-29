@@ -111,6 +111,7 @@ class _PartnerEnterprisesState extends State<PartnerEnterprises> {
                                 Item(
                                   photo: data.photo ?? "",
                                   name: data.name ?? "",
+                                  description: data.description ?? "",
                                   city: data.city ?? "",
                                 ),
                             ],
@@ -133,6 +134,7 @@ class _PartnerEnterprisesState extends State<PartnerEnterprises> {
                                   "",
                               name: snapshot.data![index].name ??
                                   "",
+                              description: snapshot.data![index].description ?? "",
                               city: snapshot.data![index].city ??
                                   "",
                             ),
@@ -154,6 +156,7 @@ class _PartnerEnterprisesState extends State<PartnerEnterprises> {
                                   "",
                               name: snapshot.data![index].name ??
                                   "",
+                              description: snapshot.data![index].description ?? "",
                               city: snapshot.data![index].city ??
                                   "",
                             ),

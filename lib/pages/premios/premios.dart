@@ -27,6 +27,10 @@ class _RewardsPageState extends State<RewardsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: PreferredSize(
+        preferredSize: kIsWeb ? const Size.fromHeight(150) : Size.zero,
+        child: kIsWeb ? const MenuBar1() : Container(),
+      ),
       body: WillPopScope(
         onWillPop: () async {
           if (kIsWeb) {

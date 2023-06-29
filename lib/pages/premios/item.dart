@@ -26,7 +26,7 @@ class Item extends StatelessWidget {
           Expanded(
               child: Container(
             padding: const EdgeInsets.all(kPadding),
-            height: 180,
+            height: 300,
             width: 450,
             decoration: BoxDecoration(
               color: selected

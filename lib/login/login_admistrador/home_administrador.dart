@@ -104,145 +104,148 @@ class _HomeAdministradorState extends State<HomeAdministrador> {
             const SizedBox(
               height: 15,
             ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                child: GridView(
-                  physics: const NeverScrollableScrollPhysics(),
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 10.0,
-                    mainAxisSpacing: 10.0,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                GestureDetector(
+                  onTap: () =>
+                      Navigator.pushNamed(context, Routes.registerempresas),
+                  child: Container(
+                    height: 250,
+                    width: 250,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      border: Border.all(
+                          color: Colors.black, // Set border color
+                          width: 0.2), // Set border width
+                      borderRadius: const BorderRadius.all(
+                          Radius.circular(5.0)), // Set rounded corner radius
+                      boxShadow: const [
+                        BoxShadow(
+                            blurRadius: 0.1,
+                            color: Colors.black,
+                            offset: Offset(0.1, 1))
+                      ], // Make rounded corner of border
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const [
+                        SizedBox(
+                          width: 50,
+                          height: 50,
+                          child: Icon(
+                            Icons.domain_add,
+                            size: 50,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 15,
+                        ),
+                        Text(
+                          "Adicionar Empresa",
+                          style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        )
+                      ],
+                    ),
                   ),
-                  children: [
-                    GestureDetector(
-                      onTap: () => Navigator.pushNamed(
-                          context, Routes.registerempresas),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          border: Border.all(
-                              color: Colors.black, // Set border color
-                              width: 0.2), // Set border width
-                          borderRadius: const BorderRadius.all(Radius.circular(
-                              5.0)), // Set rounded corner radius
-                          boxShadow: const [
-                            BoxShadow(
-                                blurRadius: 0.1,
-                                color: Colors.black,
-                                offset: Offset(0.1, 1))
-                          ], // Make rounded corner of border
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: const [
-                            SizedBox(
-                              width: 50,
-                              height: 50,
-                              child: Icon(
-                                Icons.domain_add,
-                                size: 50,
-                              ),
-                            ),
-                            SizedBox(
-                              height: 15,
-                            ),
-                            Text(
-                              "Adicionar Empresa",
-                              style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () => Navigator.pushNamed(
-                          context, Routes.cadastroespecificador),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          border: Border.all(
-                              color: Colors.black, // Set border color
-                              width: 0.2), // Set border width
-                          borderRadius: const BorderRadius.all(Radius.circular(
-                              5.0)), // Set rounded corner radius
-                          boxShadow: const [
-                            BoxShadow(
-                                blurRadius: 0.1,
-                                color: Colors.black,
-                                offset: Offset(0.1, 1))
-                          ], // Make rounded corner of border
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: const [
-                            SizedBox(
-                              width: 50,
-                              height: 50,
-                              child: Icon(
-                                Icons.person_add,
-                                size: 50,
-                              ),
-                            ),
-                            SizedBox(
-                              height: 15,
-                            ),
-                            Text(
-                              "Adicionar Especificador",
-                              style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border.all(
-                            color: Colors.black, // Set border color
-                            width: 0.2), // Set border width
-                        borderRadius: const BorderRadius.all(
-                            Radius.circular(5.0)), // Set rounded corner radius
-                        boxShadow: const [
-                          BoxShadow(
-                              blurRadius: 0.1,
-                              color: Colors.black,
-                              offset: Offset(0.1, 1))
-                        ], // Make rounded corner of border
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: const [
-                          SizedBox(
-                            width: 50,
-                            height: 50,
-                            child: Icon(
-                              Icons.post_add,
-                              size: 50,
-                            ),
-                          ),
-                          SizedBox(
-                            height: 15,
-                          ),
-                          Text(
-                            "Adicionar Premio",
-                            style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          )
-                        ],
-                      ),
-                    )
-                  ],
                 ),
-              ),
+                GestureDetector(
+                  onTap: () => Navigator.pushNamed(
+                      context, Routes.cadastroespecificador),
+                  child: Container(
+                    height: 250,
+                    width: 250,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      border: Border.all(
+                          color: Colors.black, // Set border color
+                          width: 0.2), // Set border width
+                      borderRadius: const BorderRadius.all(
+                          Radius.circular(5.0)), // Set rounded corner radius
+                      boxShadow: const [
+                        BoxShadow(
+                            blurRadius: 0.1,
+                            color: Colors.black,
+                            offset: Offset(0.1, 1))
+                      ], // Make rounded corner of border
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const [
+                        SizedBox(
+                          width: 50,
+                          height: 50,
+                          child: Icon(
+                            Icons.person_add,
+                            size: 50,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 15,
+                        ),
+                        Text(
+                          "Adicionar Especificador",
+                          style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () =>
+                      Navigator.pushNamed(context, Routes.cadastropremio),
+                  child: Container(
+                    height: 250,
+                    width: 250,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      border: Border.all(
+                          color: Colors.black, // Set border color
+                          width: 0.2), // Set border width
+                      borderRadius: const BorderRadius.all(
+                          Radius.circular(5.0)), // Set rounded corner radius
+                      boxShadow: const [
+                        BoxShadow(
+                            blurRadius: 0.1,
+                            color: Colors.black,
+                            offset: Offset(0.1, 1))
+                      ], // Make rounded corner of border
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const [
+                        SizedBox(
+                          width: 50,
+                          height: 50,
+                          child: Icon(
+                            Icons.post_add,
+                            size: 50,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 15,
+                        ),
+                        Text(
+                          "Adicionar Premio",
+                          style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                )
+              ],
+            ),
+            const SizedBox(
+              height: 80,
             ),
             ActionChip(label: const Text("Logout"), onPressed: () {}),
           ],

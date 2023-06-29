@@ -35,7 +35,9 @@ class AuthenticationController {
     var url =
         Uri.parse("https://nucleocasadecor-production.up.railway.app/login/");
     Map<String, String> headers = {
+      "Access-Control-Allow-Origin": "*",
       'content-type': 'application/json',
+      'Accept': '*/*'
     };
     Map<String, dynamic> body = {
       "username": email.trim(),

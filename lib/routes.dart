@@ -20,6 +20,7 @@ class Routes {
   static const String homeespecificador = "homeespecificador";
   static const String cadastro = "cadastro";
   static const String cadastroespecificador = "cadastroespecificador";
+  static const String cadastropremio = "cadastropremio";
   static const String homeadministrador = "homeadministrador";
   static const String premios = "premios";
   static const String table = "table";
