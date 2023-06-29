@@ -110,7 +110,7 @@ class _CadastroEspecificadorState extends State<CadastroEspecificador> {
                   keyboardType: TextInputType.text,
                   controller: _nomeController,
                   inputFormatters: [
-                    LengthLimitingTextInputFormatter(20),
+                    //LengthLimitingTextInputFormatter(20),
                     regexTextAnNumber
                   ],
                   decoration: const InputDecoration(
@@ -223,7 +223,7 @@ class _CadastroEspecificadorState extends State<CadastroEspecificador> {
                   keyboardType: TextInputType.text,
                   controller: _seguimentoController,
                   inputFormatters: [
-                    LengthLimitingTextInputFormatter(20),
+                    //LengthLimitingTextInputFormatter(20),
                     regexTextAnNumber
                   ],
                   decoration: const InputDecoration(
@@ -244,7 +244,7 @@ class _CadastroEspecificadorState extends State<CadastroEspecificador> {
                   keyboardType: TextInputType.text,
                   controller: _telefoneController,
                   inputFormatters: [
-                    LengthLimitingTextInputFormatter(20),
+                    //LengthLimitingTextInputFormatter(20),
                     regexNumberOnly
                   ],
                   decoration: const InputDecoration(
@@ -265,7 +265,7 @@ class _CadastroEspecificadorState extends State<CadastroEspecificador> {
                   keyboardType: TextInputType.text,
                   controller: _celularController,
                   inputFormatters: [
-                    LengthLimitingTextInputFormatter(20),
+                    //LengthLimitingTextInputFormatter(20),
                     regexNumberOnly
                   ],
                   decoration: const InputDecoration(
@@ -290,7 +290,7 @@ class _CadastroEspecificadorState extends State<CadastroEspecificador> {
                         keyboardType: TextInputType.text,
                         controller: _enderecoController,
                         inputFormatters: [
-                          LengthLimitingTextInputFormatter(20),
+                          //LengthLimitingTextInputFormatter(20),
                           regexTextAnNumber
                         ],
                         decoration: const InputDecoration(
@@ -318,7 +318,7 @@ class _CadastroEspecificadorState extends State<CadastroEspecificador> {
                         keyboardType: TextInputType.text,
                         controller: _numeroController,
                         inputFormatters: [
-                          LengthLimitingTextInputFormatter(20),
+                          //LengthLimitingTextInputFormatter(20),
                           regexNumberOnly
                         ],
                         decoration: const InputDecoration(
@@ -346,7 +346,7 @@ class _CadastroEspecificadorState extends State<CadastroEspecificador> {
                         keyboardType: TextInputType.text,
                         controller: _bairroController,
                         inputFormatters: [
-                          LengthLimitingTextInputFormatter(20),
+                          //LengthLimitingTextInputFormatter(20),
                           regexTextAnNumber
                         ],
                         decoration: const InputDecoration(
@@ -374,7 +374,7 @@ class _CadastroEspecificadorState extends State<CadastroEspecificador> {
                         keyboardType: TextInputType.text,
                         controller: _cidadeController,
                         inputFormatters: [
-                          LengthLimitingTextInputFormatter(20),
+                          //LengthLimitingTextInputFormatter(20),
                           regexTextAnNumber
                         ],
                         decoration: const InputDecoration(
@@ -401,7 +401,7 @@ class _CadastroEspecificadorState extends State<CadastroEspecificador> {
                         keyboardType: TextInputType.text,
                         controller: _estadoController,
                         inputFormatters: [
-                          LengthLimitingTextInputFormatter(20),
+                          //LengthLimitingTextInputFormatter(20),
                           regexTextAnNumber
                         ],
                         decoration: const InputDecoration(

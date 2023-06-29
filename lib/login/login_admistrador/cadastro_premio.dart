@@ -83,7 +83,7 @@ class _CadastroPremioState extends State<CadastroPremio> {
                   keyboardType: TextInputType.text,
                   controller: _titleController,
                   inputFormatters: [
-                    LengthLimitingTextInputFormatter(20),
+                    //LengthLimitingTextInputFormatter(20),
                     //FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z ]')),
                   ],
                   decoration: const InputDecoration(
@@ -125,8 +125,8 @@ class _CadastroPremioState extends State<CadastroPremio> {
                   keyboardType: TextInputType.text,
                   controller: _descriptionController,
                   inputFormatters: [
-                    LengthLimitingTextInputFormatter(20),
-                    //SFilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z ]')),
+                    //LengthLimitingTextInputFormatter(20),
+                     FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9]')),
                   ],
                   decoration: const InputDecoration(
                     hintText: 'Descrição do Premio',
