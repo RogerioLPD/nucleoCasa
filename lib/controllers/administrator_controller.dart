@@ -26,7 +26,7 @@ class AdministradorController {
     String token = sharedPreferences.getString('token')!;
     String image = base64.encode(bytes!);
     var url =
-    Uri.https("nucleocasadecor-production.up.railway.app", "/api/cadastro/empresa/");
+    Uri.https("apicasadecor.com", "/api/cadastro/empresa/");
     Map<String, String> headers = {
       'Authorization': "Token $token",
     };
@@ -73,7 +73,7 @@ class AdministradorController {
     String token = sharedPreferences.getString('token')!;
     String image = base64.encode(bytes!);
     var url =
-        Uri.https("nucleocasadecor-production.up.railway.app", "/api/premio/");
+        Uri.https("apicasadecor.com", "/api/premio/");
     Map<String, String> headers = {
       'Authorization': "Token $token",
     };
@@ -119,9 +119,10 @@ class AdministradorController {
     String token = sharedPreferences.getString('token')!;
     String image = base64.encode(bytes!);
     var url =
-        Uri.https("nucleocasadecor-production.up.railway.app", "/api/cadastro/especificador/");
+        Uri.https("apicasadecor.com", "/api/cadastro/especificador/");
     Map<String, String> headers = {
       'Authorization': "Token $token",
+
     };
 
     Map<String, dynamic> body = {
@@ -142,7 +143,7 @@ class AdministradorController {
     };
 
     try {
-      var response = await http.post(url, headers: headers, body: body);
+      var response = await http.post(url, headers: headers, body: jsonEncode(body));
       if (response.statusCode == 201) {
         if (kDebugMode) {
           print(response.body);

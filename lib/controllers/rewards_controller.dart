@@ -7,7 +7,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
 class RewardsController {
-  StreamController<List<ProductItem>> dataController = StreamController.broadcast();
+  StreamController<List<ProductItem>> dataController =
+      StreamController.broadcast();
 
   RewardsController() {
     initValues();
@@ -20,8 +21,7 @@ class RewardsController {
   getData() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     //String token = sharedPreferences.getString('token')!;
-    var url = Uri.parse(
-        "https://nucleocasadecor-production.up.railway.app/api/premio/");
+    var url = Uri.https("apicasadecor.com", "/api/premio/");
     Map<String, String> headers = {
       'content-type': 'application/json',
     };
@@ -34,7 +34,9 @@ class RewardsController {
       var response = await http.get(url, headers: headers);
       if (response.statusCode == 200) {
         if (json.decode(response.body) != []) {
-          item = (json.decode(response.body) as List).map((data) => ProductItem.fromJson(data)).toList();
+          item = (json.decode(response.body) as List)
+              .map((data) => ProductItem.fromJson(data))
+              .toList();
           dataController.sink.add(item);
         }
         // if (kDebugMode) {
@@ -45,6 +47,4 @@ class RewardsController {
       log(e.toString());
     }
   }
-
-
 }

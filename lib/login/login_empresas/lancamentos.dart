@@ -24,7 +24,6 @@ class _HomeEmpresasState extends State<HomeEmpresas> {
   final especificadorController = TextEditingController();
   String valorPontosControllerText = "";
 
-
   @override
   void dispose() {
     valorVendasController.dispose();
@@ -45,7 +44,8 @@ class _HomeEmpresasState extends State<HomeEmpresas> {
     return Scaffold(
       body: WillPopScope(
         onWillPop: () async {
-          Navigator.pushNamedAndRemoveUntil(context, Routes.home, (Route<dynamic> route) => false);
+          Navigator.pushNamedAndRemoveUntil(
+              context, Routes.home, (Route<dynamic> route) => false);
           return true;
         },
         child: Stack(
@@ -80,7 +80,7 @@ class _HomeEmpresasState extends State<HomeEmpresas> {
                       child: Container(
                         margin: marginBottom24,
                         child: TextFormField(
-                          controller: nomeEstabelecimentoController,
+                          //controller: nomeEstabelecimentoController,
                           keyboardType: TextInputType.text,
                           style: subtitleTextStyle,
                           decoration: const InputDecoration(
@@ -163,7 +163,8 @@ class _HomeEmpresasState extends State<HomeEmpresas> {
                           if (states.contains(MaterialState.focused) ||
                               states.contains(MaterialState.hovered) ||
                               states.contains(MaterialState.pressed)) {
-                            return const BorderSide(color: textPrimary, width: 2);
+                            return const BorderSide(
+                                color: textPrimary, width: 2);
                           }
                           return BorderSide(color: primarySwatch, width: 2);
                         }),
@@ -217,20 +218,40 @@ class _HomeEmpresasState extends State<HomeEmpresas> {
                       ),
                     ),
                     StreamBuilder(
-                      stream: valorPontosController.stream,
-                      builder: (context, snapshot) {
-                        return Align(
-                          alignment: Alignment.center,
-                          child: Container(
-                            margin: marginBottom24,
-                            child: Text(snapshot.hasData ? snapshot.data.toString() ?? "0" : "0",)
-                          ),
-                        );
-                      }
-                    ),
+                        stream: valorPontosController.stream,
+                        builder: (context, snapshot) {
+                          return Align(
+                            alignment: Alignment.center,
+                            child: Container(
+                                margin: marginBottom24,
+                                child: Text(
+                                  snapshot.hasData
+                                      ? snapshot.data.toString() ?? "0"
+                                      : "0",style: headlineTextStyle,
+                                )),
+                          );
+                        }),
                     OutlinedButton(
-                      onPressed: () {
-                        _controller.doRelease(valorPontosControllerText, nomeEstabelecimentoController.text, especificadorController.text);
+                      onPressed: () async {
+                        var text1 =
+                            especificadorController.text.replaceAll(".", "");
+                        var text2 = text1.replaceAll("-", "");
+                        bool response = await _controller.doRelease(
+                            valorPontosControllerText,
+                            nomeEstabelecimentoController.text,
+                            text2);
+
+                        if (response) {
+                          // ignore: use_build_context_synchronously
+                          Navigator.pushReplacementNamed(
+                              context, Routes.homeespecificador);
+                        } else {
+                          // ignore: use_build_context_synchronously
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content: Text('Erro ao fazer login')),
+                          );
+                        }
                       },
                       style: ButtonStyle(
                         overlayColor:
@@ -239,7 +260,8 @@ class _HomeEmpresasState extends State<HomeEmpresas> {
                           if (states.contains(MaterialState.focused) ||
                               states.contains(MaterialState.hovered) ||
                               states.contains(MaterialState.pressed)) {
-                            return const BorderSide(color: textPrimary, width: 2);
+                            return const BorderSide(
+                                color: textPrimary, width: 2);
                           }
 
                           return BorderSide(color: primarySwatch, width: 2);
