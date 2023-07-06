@@ -225,41 +225,41 @@ class _LoginAdministradorState extends State<LoginAdministrador> {
     );
   }
 
-  Future<bool> fazerLogin() async {
-    if (kDebugMode) {
-      print("oi");
-    }
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    var url =
-        Uri.parse("https://nucleocasadecor-production.up.railway.app/login/");
-    Map<String, String> headers = {
-      'content-type': 'application/json',
-    };
-    Map<String, dynamic> body = {
-      "username": _emailController.text,
-      "password": _senhaController.text,
-    };
-    try {
-      var response = await http.post(
-        url,
-        headers: headers,
-        body: jsonEncode(body),
-      );
-      if (response.statusCode == 200) {
-        String token = jsonDecode(response.body)['token'];
-        if (token.isNotEmpty) {
-          await sharedPreferences.setString('token', "Token $token");
-        }
-        if (kDebugMode) {
-          print(sharedPreferences.getString('token'));
-        }
-        return true;
-      } else {
-        return false;
-      }
-    } catch (e) {
-      log(e.toString());
-      return false;
-    }
-  }
+  // Future<bool> fazerLogin() async {
+  //   if (kDebugMode) {
+  //     print("oi");
+  //   }
+  //   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+  //   var url =
+  //       Uri.parse("https://nucleocasadecor-production.up.railway.app/login/");
+  //   Map<String, String> headers = {
+  //     'content-type': 'application/json',
+  //   };
+  //   Map<String, dynamic> body = {
+  //     "username": _emailController.text,
+  //     "password": _senhaController.text,
+  //   };
+  //   try {
+  //     var response = await http.post(
+  //       url,
+  //       headers: headers,
+  //       body: jsonEncode(body),
+  //     );
+  //     if (response.statusCode == 200) {
+  //       String token = jsonDecode(response.body)['token'];
+  //       if (token.isNotEmpty) {
+  //         await sharedPreferences.setString('token', "Token $token");
+  //       }
+  //       if (kDebugMode) {
+  //         print(sharedPreferences.getString('token'));
+  //       }
+  //       return true;
+  //     } else {
+  //       return false;
+  //     }
+  //   } catch (e) {
+  //     log(e.toString());
+  //     return false;
+  //   }
+  // }
 }

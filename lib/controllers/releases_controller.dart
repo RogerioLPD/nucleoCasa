@@ -10,8 +10,6 @@ class ReleasesController {
     String valor = value;
     String especificador = text2;
     String empresa = text1;
-    print(valor);
-    print(especificador);
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     String token = sharedPreferences.getString('token')!;
     var url = Uri.https("apicasadecor.com","/api/nova-compra/");
@@ -26,7 +24,7 @@ class ReleasesController {
 
     try {
       var response = await http.post(url, headers: headers, body: body);
-      if (response.statusCode == 200) {
+      if (response.statusCode == 201) {
         return true;
       } else {
         return false;
