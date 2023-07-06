@@ -33,7 +33,7 @@ class AuthenticationController {
     loginLoading.sink.add(true);
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     var url =
-        Uri.parse("https://nucleocasadecor-production.up.railway.app/login/");
+        Uri.https("apicasadecor.com", "/login/");
     Map<String, String> headers = {
       //"Access-Control-Allow-Origin": "*",
       'content-type': 'application/json',

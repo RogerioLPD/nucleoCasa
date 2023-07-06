@@ -104,8 +104,9 @@ class _ReleasesEspecificadorState extends State<ReleasesEspecificador> {
                                     constraints: const BoxConstraints(
                                       minWidth: 350.0,
                                     ),
-                                    child: const Text(
-                                      "No data",
+                                    child: Text(
+                                      snapshot.data![index].empresa!.name ??
+                                          "No data",
                                       textAlign: TextAlign.left,
                                     ),
                                   ),
@@ -135,7 +136,6 @@ class _ReleasesEspecificadorState extends State<ReleasesEspecificador> {
         padding: const EdgeInsets.only(top: 50),
         child: Column(
           children: [
-
             Container(
               padding: customPadding,
               child: Row(
@@ -168,14 +168,18 @@ class _ReleasesEspecificadorState extends State<ReleasesEspecificador> {
                                           minWidth: 40.0,
                                           maxWidth: 600.0,
                                         ),
-                                        child: Text(snapshot.data![index].valor ??
-                                            "No data")),
+                                        child: Text(
+                                            snapshot.data![index].valor ??
+                                                "No data")),
                                     Container(
                                         constraints: const BoxConstraints(
                                           minWidth: 40.0,
                                           maxWidth: 600.0,
                                         ),
-                                        child: const Text("No data",
+                                        child: Text(
+                                            snapshot.data![index].empresa!
+                                                    .name ??
+                                                "No data",
                                             textAlign: TextAlign.right)),
                                     //Text(snapshot.data![index].empresa!.firstName ?? "No data",textAlign: TextAlign.right),
                                     Container(

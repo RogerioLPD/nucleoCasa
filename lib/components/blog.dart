@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -468,18 +469,6 @@ class MenuBar1State extends State<MenuBar1> {
             : const Text(
                 "HOME ADM.",
               ),
-      ),
-      TextButton(
-        onPressed: () {
-          if (ModalRoute.of(context)!.settings.name != Routes.premios) {
-            Navigator.pushReplacementNamed(context, Routes.premios);
-          }
-          //Navigator.pop(dropdownKey.currentContext!);
-        },
-        style: menuButtonStyle,
-        child: const Text(
-          "PRÊMIOS",
-        ),
       ),
       // TextButton(
       //   onPressed: () {

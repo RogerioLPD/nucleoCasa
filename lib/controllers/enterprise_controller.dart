@@ -28,8 +28,7 @@ class EnterpriseController {
     isLoading.sink.add(true);
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     //String token = sharedPreferences.getString('token')!;
-    var url = Uri.https(
-        "nucleocasadecor-production.up.railway.app", "/api/empresas/");
+    var url = Uri.https("apicasadecor.com", "/api/empresas/");
     Map<String, String> headers = {
       //'Authorization': token,
       'content-type': 'application/json',

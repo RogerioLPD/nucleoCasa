@@ -6,31 +6,31 @@ import 'package:http/http.dart' as http;
 
 
 class ReleasesController {
-  doRelease(value, text1, text2) async {
-    int valor = int.parse(value);
-    int especificador = int.parse(text1);
-    int empresa = int.parse(text2);
+  Future doRelease(value, text1, text2) async {
+    String valor = value;
+    String especificador = text2;
+    String empresa = text1;
+    print(valor);
+    print(especificador);
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     String token = sharedPreferences.getString('token')!;
-    var url = Uri.parse(
-        "https://nucleocasadecor-production.up.railway.app/api/compra/nova/");
+    var url = Uri.https("apicasadecor.com","/api/nova-compra/");
     Map<String, String> headers = {
       'Authorization': "Token $token",
-      'content-type': 'application/json',
     };
 
-    Map<String, dynamic> body = {
-      "valor": valor,
-      "especificador": especificador,
-      "empresa": empresa
-    };
+    var body = <String, dynamic>{};
+    body['valor'] = valor;
+    body['doc'] = especificador;
+
+
     try {
       var response = await http.post(url, headers: headers, body: body);
       if (response.statusCode == 200) {
-        // if (kDebugMode) {
-        //   print(token);
-        // }
-      } else {}
+        return true;
+      } else {
+        return false;
+      }
     } catch (e) {
       log(e.toString());
     }

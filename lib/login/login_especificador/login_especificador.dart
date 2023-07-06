@@ -140,19 +140,19 @@ class _LoginEspecificadorState extends State<LoginEspecificador> {
                       return null;
                     },
                   ),
-                  Align(
-                    alignment: Alignment.topRight,
-                    child: MaterialButton(
-                      padding: const EdgeInsets.symmetric(horizontal: 6),
-                      elevation: 0,
-                      onPressed: () {},
-                      child: Text(
-                        'Esqueceu a senha?',
-                        style: GoogleFonts.montserrat(
-                            color: const Color(0xFF3A3A3A)),
-                      ),
-                    ),
-                  ),
+                  // Align(
+                  //   alignment: Alignment.topRight,
+                  //   child: MaterialButton(
+                  //     padding: const EdgeInsets.symmetric(horizontal: 6),
+                  //     elevation: 0,
+                  //     onPressed: () {},
+                  //     child: Text(
+                  //       'Esqueceu a senha?',
+                  //       style: GoogleFonts.montserrat(
+                  //           color: const Color(0xFF3A3A3A)),
+                  //     ),
+                  //   ),
+                  // ),
                   const SizedBox(
                     height: 14,
                   ),
@@ -202,27 +202,27 @@ class _LoginEspecificadorState extends State<LoginEspecificador> {
                   const SizedBox(
                     height: 30,
                   ),
-                  // RichText(
-                  //   text: TextSpan(children: [
-                  //     TextSpan(
-                  //       text: "Não tem uma conta? ",
-                  //       style: GoogleFonts.montserrat(
-                  //           color: textPrimary,
-                  //           fontWeight: FontWeight.w700,
-                  //           fontSize: 13),
-                  //     ),
-                  //     TextSpan(
-                  //       text: 'Registre-se',
-                  //       recognizer: TapGestureRecognizer()
-                  //         ..onTap = () => Navigator.pushNamed(
-                  //             context, Routes.cadastroespecificador),
-                  //       style: GoogleFonts.montserrat(
-                  //           color: Colors.red,
-                  //           fontWeight: FontWeight.w700,
-                  //           fontSize: 13),
-                  //     ),
-                  //   ]),
-                  // ),
+                  RichText(
+                    text: TextSpan(children: [
+                      TextSpan(
+                        text: "Não tem uma conta? ",
+                        style: GoogleFonts.montserrat(
+                            color: textPrimary,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 13),
+                      ),
+                      TextSpan(
+                        text: 'Registre-se',
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () => Navigator.pushNamed(
+                              context, Routes.cadastroespecificador),
+                        style: GoogleFonts.montserrat(
+                            color: Colors.red,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 13),
+                      ),
+                    ]),
+                  ),
                   kIsWeb ?  Align(
                     alignment: Alignment.topRight,
                     child: MaterialButton(

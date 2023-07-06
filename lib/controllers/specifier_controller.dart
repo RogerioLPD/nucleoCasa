@@ -30,8 +30,7 @@ class SpecifierController {
   getData() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     String token = sharedPreferences.getString('token')!;
-    var url = Uri.parse(
-        "https://nucleocasadecor-production.up.railway.app/api/compras/especificador/");
+    var url = Uri.https("apicasadecor.com", "/api/compras/especificador/");
     Map<String, String> headers = {
       'Authorization': "Token $token",
       'content-type': 'application/json',
@@ -69,8 +68,7 @@ class SpecifierController {
   getGetUser() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     String token = sharedPreferences.getString('token')!;
-    var url = Uri.parse(
-        "https://nucleocasadecor-production.up.railway.app/api/usuario/$token");
+    var url = Uri.https("apicasadecor.com", "/api/usuario/$token");
     Map<String, String> headers = {
       'Authorization': "Token $token",
       'content-type': 'application/json',
@@ -83,7 +81,7 @@ class SpecifierController {
     try {
       var response = await http.get(url, headers: headers);
       if (response.statusCode == 200) {
-        if(json.decode(response.body) != []){
+        if (json.decode(response.body) != []) {
           item = UserDetails.fromJson(json.decode(response.body));
 
           userController.sink.add(item);

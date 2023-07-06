@@ -141,19 +141,19 @@ class _LoginAdministradorState extends State<LoginAdministrador> {
                     return null;
                   },
                 ),
-                Align(
-                  alignment: Alignment.topRight,
-                  child: MaterialButton(
-                    padding: const EdgeInsets.symmetric(horizontal: 6),
-                    elevation: 0,
-                    onPressed: () {},
-                    child: Text(
-                      'Esqueceu a senha?',
-                      style: GoogleFonts.montserrat(
-                          color: const Color(0xFF3A3A3A)),
-                    ),
-                  ),
-                ),
+                // Align(
+                //   alignment: Alignment.topRight,
+                //   child: MaterialButton(
+                //     padding: const EdgeInsets.symmetric(horizontal: 6),
+                //     elevation: 0,
+                //     onPressed: () {},
+                //     child: Text(
+                //       'Esqueceu a senha?',
+                //       style: GoogleFonts.montserrat(
+                //           color: const Color(0xFF3A3A3A)),
+                //     ),
+                //   ),
+                // ),
                 const SizedBox(
                   height: 14,
                 ),
