@@ -243,13 +243,15 @@ class _HomeEmpresasState extends State<HomeEmpresas> {
 
                         if (response) {
                           // ignore: use_build_context_synchronously
-                          Navigator.pushReplacementNamed(
-                              context, Routes.homeespecificador);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content: Text('Lançamento feito com sucesso')),
+                          );
                         } else {
                           // ignore: use_build_context_synchronously
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
-                                content: Text('Erro ao fazer login')),
+                                content: Text('Erro ao fazer lançamento')),
                           );
                         }
                       },
